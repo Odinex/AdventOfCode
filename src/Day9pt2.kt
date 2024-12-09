@@ -17,26 +17,69 @@ fun main() {
                 }
 
             }
-        } // 5857619169 90489586600 6331813711078 6332189866718
+        }
         println(chars.toString())
-        var dotIndex = 0
-        for(i in chars.size-1 downTo 0) {
-            if (chars[i] == '.') continue
-
+        var dotIndex: Int;
+        var i = chars.size -1
+        while(i >= 0) {
+            dotIndex = 0
+            if(chars[i] == '.') {
+                i--
+                continue
+            }
             // Find next available dot to the left
-            while (dotIndex < i && chars[dotIndex] != '.') {
+            while (dotIndex < chars.size && chars[dotIndex] != '.') {
                 dotIndex++
             }
 
             if (dotIndex < i) {
-                chars[dotIndex] = chars[i]
-                chars[i] = '.'
-                dotIndex++
+                var nextDifferentIndex = 0
+                for (j in i downTo 0) {
+                    if(chars[j] != chars[i]) {
+                        nextDifferentIndex = j;
+                        break
+                    }
+                }
+                val blockToMove = chars.subList(nextDifferentIndex+1, i+1).toList()
+                var canBlockBeMovedThere = false;
+                while(dotIndex < nextDifferentIndex && !canBlockBeMovedThere) {
+                    canBlockBeMovedThere = true
+                    for (d in dotIndex..<dotIndex + blockToMove.size) {
+                        if (d >= chars.size || chars[d] != '.') {
+                            canBlockBeMovedThere = false;
+                            dotIndex = d
+                            while (dotIndex <= nextDifferentIndex && chars[dotIndex] != '.') {
+                                dotIndex++
+                            }
+                            break;
+                        }
+                    }
+                }
+                if(!canBlockBeMovedThere) {
+                    i = nextDifferentIndex
+                    continue
+                }
+                blockToMove.forEachIndexed { index, b ->
+                    if (chars[dotIndex] == '.') {
+                        if(dotIndex < i-index) {
+                            chars[dotIndex] = b
+                            chars[i-index] = '.'
+                            dotIndex++
+                        }
+                    } else {
+                        dotIndex = chars.indexOfFirst { c -> c == '.' };
+                        if(dotIndex < i-index) {
+                            chars[dotIndex] = b
+                            chars[i-index] = '.'
+                        }
+                    }
+                }
             }
+            i--
         }
         println(chars.map { it.code.toLong()})
         val sumOf =
-            chars.filter { it != '.' }.withIndex().sumOf { (index, char) -> index.toLong() *
+            chars.withIndex().sumOf { (index, char) -> if(char == '.') 0 else index.toLong() *
                     (if(char == Char.MAX_VALUE) 46L else char.code.toLong()) }
         println(sumOf)
     }
