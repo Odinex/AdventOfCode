@@ -32,7 +32,7 @@ fun main() {
     println(sum)
 }
 
-fun goInDirection(d: Pair<Int, Int>, z: Pair<Int, Int>, matrix: MutableList<List<Int>>, matrixSize: Int): MutableSet<Pair<Int,Int>> {
+private fun goInDirection(d: Pair<Int, Int>, z: Pair<Int, Int>, matrix: MutableList<List<Int>>, matrixSize: Int): MutableSet<Pair<Int,Int>> {
     var number = mutableSetOf<Pair<Int,Int>>()
     val nextStep = Pair(z.first+d.first, z.second+d.second)
 
@@ -40,10 +40,10 @@ fun goInDirection(d: Pair<Int, Int>, z: Pair<Int, Int>, matrix: MutableList<List
         val i = matrix[nextStep.first][nextStep.second]
 
         if (i - matrix[z.first][z.second] == 1) {
-        if(i == 9) {
-            number.add(nextStep)
-        } else {
-                for(direction in directions) {
+            if (i == 9) {
+                number.add(nextStep)
+            } else {
+                for (direction in directions) {
                     number += goInDirection(direction, nextStep, matrix, matrixSize)
                 }
             }
