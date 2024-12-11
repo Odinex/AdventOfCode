@@ -49,79 +49,85 @@ val CONNECT_PIPES_MAP = mapOf<Pipes, List<Direction>>(
     Pipes.DOWNLEFT to listOf(Direction.LEFT, Direction.DOWN),
     Pipes.DOWNRIGHT to listOf(Direction.RIGHT, Direction.DOWN)
 )
-val startLongs = getStartInfo()
+val pair = getStartInfo()
+val start: Pair<Int, Int>? = pair.first
+val matrix = pair.second
 fun main() {
 
-    var mutableList = startLongs.toMutableList()
-    for(j in 0..<75) {
-        var newMutableList = mutableListOf<Long>()
-        for(i in mutableList.indices) {
-            val l = mutableList[i]
-            if (l == 0L) {
-                newMutableList.add(1);
-            } else {
-                val toString = l.toString()
-                if (toString.length % 2 == 0) {
-                    newMutableList.add(toString.substring(0, toString.length / 2).toLong())
-                    newMutableList.add(toString.substring(toString.length / 2, toString.length).toLong())
-                } else {
-                    newMutableList.add(mutableList[i] * 2024L)
+    var numberOfSafeReports = 0
+    var longestPath: Long? = null
+    if(start != null) {
+        for(d in Direction.entries) {
+            val nextStep = Pair(start.first + d.pair.first, start.second + d.pair.second)
+            if (nextStep.first in matrix.indices && nextStep.second in matrix.indices) {
+                longestPath = dfs(nextStep, 2, d)
+                if(longestPath != null) {
+                    break;
                 }
             }
         }
-        mutableList = newMutableList
+        if(longestPath != null) {
+            println(longestPath/2)
+        }
     }
-    println(mutableList.size)
 }
 
-private fun getStartInfo(): List<Long> {
-    var start: List<Long> = emptyList()
+private fun getStartInfo(): Pair<Pair<Int, Int>?, Array<CharArray>> {
+    var start: Pair<Int, Int>? = null
+    var currentLineIndex = 0
+    val matrix = mutableListOf<List<Char>>()
     readFile("Current.txt")?.forEachLine {
-        start = it.split(" ").map { c -> c.toLong() }
+        matrix.add(it.toList())
+        val indexOf = it.indexOf(Pipes.START.value)
+        if (indexOf != -1) {
+            start = Pair(currentLineIndex, indexOf)
+        }
+        currentLineIndex++;
+
     }
-    return start
+    return Pair(start, matrix.map{ it.toCharArray() }.toTypedArray())
 }
 
 
 fun readFile(fileName: String) = object {}.javaClass.getResourceAsStream(fileName)?.reader()
 
-//private fun dfs(
-//    current: Pair<Int, Int>,
-//    count: Long,
-//    currentDirection: Direction
-//): Long? {
-//    val currentPipe = Pipes.valueOf(
-//        matrix[current.first][current.second])
-//    if (currentPipe == Pipes.START) {
-//        return count
-//    }
-//    if(currentPipe == Pipes.GROUND) {
-//        return null;
-//    }
-//    val oppositeDir = Direction.getOpposite(currentDirection);
-//    val directions = CONNECT_PIPES_MAP[currentPipe]?.filter { it != oppositeDir}
-//    if(directions == null) {
-//        return null
-//    }
-//
-//    for (direction in directions) {
-//        val nextStep = Pair(current.first + direction.pair.first, current.second + direction.pair.second)
-//        try {
-//            val pipe = Pipes.valueOf(matrix[nextStep.first][nextStep.second])
-//            if (pipe == Pipes.START) {
-//                return count
-//            }
-//            if (directionToPipesMap[direction]?.contains(pipe) == true) {
-//                val dfs = dfs(nextStep, count + 1, direction)
-//                return dfs
-//            } else {
-//                return null
-//            }
-//        } catch (_: Exception) {return null}
-//    }
-//
-//    return count
-//}
+private fun dfs(
+    current: Pair<Int, Int>,
+    count: Long,
+    currentDirection: Direction
+): Long? {
+    val currentPipe = Pipes.valueOf(
+        matrix[current.first][current.second])
+    if (currentPipe == Pipes.START) {
+        return count
+    }
+    if(currentPipe == Pipes.GROUND) {
+        return null;
+    }
+    val oppositeDir = Direction.getOpposite(currentDirection);
+    val directions = CONNECT_PIPES_MAP[currentPipe]?.filter { it != oppositeDir}
+    if(directions == null) {
+        return null
+    }
+
+    for (direction in directions) {
+        val nextStep = Pair(current.first + direction.pair.first, current.second + direction.pair.second)
+        try {
+            val pipe = Pipes.valueOf(matrix[nextStep.first][nextStep.second])
+            if (pipe == Pipes.START) {
+                return count
+            }
+            if (directionToPipesMap[direction]?.contains(pipe) == true) {
+                val dfs = dfs(nextStep, count + 1, direction)
+                return dfs
+            } else {
+                return null
+            }
+        } catch (_: Exception) {return null}
+    }
+
+    return count
+}
 
 //private fun dfs(
 //    current: Pair<Int, Int>,
