@@ -41,9 +41,12 @@ private fun dfs(
     return result
 }
 
+private const val INPUT = "Current.txt"
+private const val TEST_INPUT = "Current.txt"
+
 private fun getStartInfo(): List<Long> {
     var start: List<Long> = emptyList()
-    readFile("Current.txt")?.forEachLine {
+    readFile(INPUT)?.forEachLine {
         start = it.split(" ").map { c -> c.toLong() }
     }
     return start
