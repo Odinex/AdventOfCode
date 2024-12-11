@@ -13,6 +13,16 @@ class Utils {
         }
     }
 
+    val directions = arrayOf(
+        Pair(0, 1),   // right
+        Pair(0, -1),  // left
+        Pair(1, 0),   // down
+        Pair(-1, 0),  // up
+        Pair(1, 1),   // down-right
+        Pair(1, -1),  // down-left
+        Pair(-1, 1),  // up-right
+        Pair(-1, -1)  // up-left
+    )
     enum class Direction(val pair: Pair<Int, Int>) {
         RIGHT(Pair(0, 1)),   // right
         LEFT(Pair(0, -1)),  // left
