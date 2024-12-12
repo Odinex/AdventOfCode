@@ -116,7 +116,7 @@ private const val TEST_INPUT = "CurrentTest.txt"
 
 private fun getStartCharArrayWithVisited(): Array<MutableList<Pair<Char, Boolean>>> {
     val start: MutableList<MutableList<Pair<Char, Boolean>>> = mutableListOf()
-    readFile(TEST_INPUT)?.forEachLine {
+    readFile(INPUT)?.forEachLine {
         start.add(it.toCharArray().map { c -> Pair(c, false) }.toMutableList())
     }
     return start.toTypedArray()

@@ -38,6 +38,14 @@ class Utils {
                     RIGHT -> LEFT
                 }
             }
+            fun getPerpendicular(currentDirection: Direction): List<Direction> {
+                return when (currentDirection) {
+                    UP -> listOf(LEFT, RIGHT)
+                    DOWN -> listOf(LEFT, RIGHT)
+                    LEFT -> listOf(UP, DOWN)
+                    RIGHT -> listOf(UP, DOWN)
+                }
+            }
         }
 
 //    DOWNRIGHT(Pair(1, 1)),   // down-right
