@@ -1,88 +1,116 @@
-import utils.Utils
+import java.util.*
+//
+//val startLongs = getStartInfo();
+data class PrizeSearch (
+    val aMoveValues: Pair<Long, Long>,
+    val bMoveValues: Pair<Long, Long>,
+    val prizeValue: Pair<Long, Long>
 
-val startArray = getStartCharArrayWithVisited()
-val directions = Utils.Direction.entries.toTypedArray()
-val groups: MutableList<Pair<Char, MutableList<Pair<Int, Int>>>> = mutableListOf()
-val perimeterMap = mutableMapOf<Int, Long>()
+) {
+    var currentValue: Pair<Long, Long> = Pair(0L, 0L)
+    var currentCost = 0L
+
+     fun calculateCurrentValue(numberOfAButton: Long, numberOfBButton: Long) {
+        val x = numberOfAButton * aMoveValues.first + numberOfBButton * bMoveValues.first
+         val y = numberOfAButton * aMoveValues.second + numberOfBButton * bMoveValues.second
+        this.currentCost = numberOfAButton * 3 + numberOfBButton * 1
+        this.currentValue = Pair(x,y)
+    }
+
+    var hasReachedPrize: Boolean = isPrizeReached()
+
+    fun isPrizeReached(): Boolean {
+        return this.currentValue == prizeValue;
+    }
+    fun isLessThanPrize(): Boolean {
+        return currentValue.first <= prizeValue.first && currentValue.second <= prizeValue.second
+    }
+
+}
 private var general = 0L
 fun main() {
 
-
-    while (startArray.any { charList -> charList.any { pair -> !pair.second } }) {
-        for ((index, charArray) in startArray.withIndex()) {
-            for ((charIndex, j) in charArray.withIndex()) {
-                if (!j.second) {
-                    val currentCoordinates = Pair(index, charIndex);
-                    val relevantGroups: List<Pair<Char, MutableList<Pair<Int, Int>>>> =
-                        getRelevantAdjacentGroups(j, currentCoordinates).toList()
-                    if (relevantGroups.isEmpty()) {
-                        val newGroup = Pair(j.first, mutableListOf<Pair<Int, Int>>())
-                        newGroup.second.add(currentCoordinates)
-                        groups.add(newGroup)
-                    } else {
-                        val currentGroup = relevantGroups[0]
-                        for(i in 1..<relevantGroups.size) {
-                            val next=relevantGroups[i]
-                            currentGroup.second.addAll(next.second)
-                        }
-                        currentGroup.second.add(currentCoordinates)
-                        groups.removeAll(relevantGroups.subList(1,relevantGroups.size))
-                    }
-                    startArray[index][charIndex] = Pair(j.first, true)
-                }
-            }
-
-        }
-        var total = 0L
-        for((index, group) in groups.withIndex()) {
-            var perimeter = 0L;
-
-            for(current in group.second) {
-
-                for (direction in directions) {
-                    val nextStep = Pair(current.first + direction.pair.first, current.second + direction.pair.second)
-                    if (nextStep.first in startArray.indices && nextStep.second in startArray[nextStep.first].indices) {
-                        val nextChar = startArray[nextStep.first][nextStep.second]
-                        if(nextChar.first != group.first) {
-                            perimeter++
-                        }
-                    } else {
-                        perimeter++
+    var mutableList = getStartObjects()
+    var cost = 0L
+    val memo = mutableMapOf<PrizeSearch, Long>()
+    for(prizeSearch in mutableList) {
+        var currentValue = prizeSearch.prizeValue.first
+        val firstA = prizeSearch.aMoveValues.first
+        val firstB = prizeSearch.bMoveValues.first
+        var minCost = Long.MAX_VALUE
+        var numberOfBButton: Long
+        var numberOfAButton = 0L
+        while (currentValue > 0) {
+            if(currentValue % firstB == 0L) {
+                numberOfBButton = currentValue / firstB
+                prizeSearch.calculateCurrentValue(numberOfAButton, numberOfBButton)
+                if(prizeSearch.isPrizeReached()) {
+                    if(prizeSearch.currentCost < minCost) {
+                        minCost = prizeSearch.currentCost
                     }
                 }
             }
-            perimeterMap[index] = perimeter
-            total += perimeter * group.second.size
+            currentValue -= firstA
+            numberOfAButton++
+
         }
-        println(total)
+
+//        val dfsResult = dfs(prizeSearch, memo)
+//        val minPrize = dfsResult.minBy { it.currentCost}
+        if(minCost != Long.MAX_VALUE) {
+            cost += minCost
+        }
+
     }
+    println(cost)
 }
 
-fun getRelevantAdjacentGroups(
-    j: Pair<Char, Boolean>,
-    current: Pair<Int, Int>
-): MutableSet<Pair<Char, MutableList<Pair<Int, Int>>>> {
-    val foundGroups = mutableSetOf<Pair<Char, MutableList<Pair<Int, Int>>>>()
-    for (direction in directions) {
-        val nextStep = Pair(current.first + direction.pair.first, current.second + direction.pair.second)
-        if (nextStep.first in startArray.indices && nextStep.second in startArray[nextStep.first].indices) {
-            val nextChar = startArray[nextStep.first][nextStep.second]
-            if(nextChar.first == j.first) {
-                if(nextChar.second) {
-                    val found = groups.find { group ->
-                        group.first == nextChar.first && group.second.contains(nextStep)
-                    }
-                    if(found == null) {
-                        throw Exception("WTF")
-                    }
-                    foundGroups.add(found)
-                }
-            }
-        }
-    }
-    return foundGroups;
+//private fun dfs(
+//    current: PrizeSearch,
+//    memo: MutableMap<PrizeSearch, PrizeSearch>
+//): MutableList<PrizeSearch> {
+//    val mutableListOf = mutableListOf<PrizeSearch>()
+//    val addAMove = current.addAMove()
+//
+//    if(addAMove.isPrizeReached()) {
+//        if(addAMove.currentValue == addAMove.prizeValue) {
+//            mutableListOf.add(addAMove)
+//        }
+//        return mutableListOf
+//    } else {
+//        if (addAMove.isLessThanPrize()) {
+//            mutableListOf.addAll(dfs(addAMove, memo))
+//        } else {
+//            return mutableListOf
+//        }
+//    }
+//    val addBMove = current.addBMove()
+//    if(addBMove.isPrizeReached()) {
+//
+//        if(addBMove.currentValue == addBMove.prizeValue) {
+//            mutableListOf.add(addBMove)
+//        }
+//        return mutableListOf
+//    } else {
+//        if (addBMove.isLessThanPrize()) {
+//            mutableListOf.addAll(dfs(addBMove, memo))
+//        } else {
+//            return mutableListOf
+//        }
+//    }
+//
+//    return mutableListOf
+//}
+
+private fun customLogic(current: PrizeSearch): List<Long> {
+    val results = mutableListOf<Long>()
+
+    return results
 }
 
+private fun exitCondition(current: PrizeSearch): Boolean {
+    return current.isPrizeReached()
+}
 
 private fun dfs(
     current: Long,
@@ -96,21 +124,20 @@ private fun dfs(
 
     var result = 0L
     if (current == 0L) {
-        result += dfs(1, count + 1, memo);
+        result += dfs(1, count+1, memo);
     } else {
         val toString = current.toString()
         if (toString.length % 2 == 0) {
-            result += dfs(toString.substring(0, toString.length / 2).toLong(), count + 1, memo)
+            result +=dfs(toString.substring(0, toString.length / 2).toLong(), count + 1, memo)
             result += dfs(toString.substring(toString.length / 2, toString.length).toLong(), count + 1, memo)
         } else {
-            result += dfs(current * 2024L, count + 1, memo)
+            result +=dfs(current * 2024L, count + 1, memo)
         }
     }
 
     memo[key] = result
     return result
 }
-
 private const val INPUT = "Current.txt"
 private const val TEST_INPUT = "CurrentTest.txt"
 
@@ -136,6 +163,47 @@ private fun getStartInfo(): List<Long> {
     var start: List<Long> = emptyList()
     readFile(TEST_INPUT)?.forEachLine {
         start = it.split(" ").map { c -> c.toLong() }
+    }
+    return start
+}
+
+fun getStartObjects(): List<PrizeSearch> {
+    var start: MutableList<PrizeSearch> = mutableListOf()
+    var aX: Long = 0L
+    var aY: Long = 0L
+    var bX: Long = 0L
+    var bY: Long = 0L
+    var pX: Long = 0L
+    var pY: Long = 0L
+    readFile(INPUT)?.forEachLine {
+        if(it.startsWith("Button A: X+")) {
+            val substringAfter = it.substringAfter("Button A: X+")
+            val (xString, yString) = substringAfter.split(", Y+")
+            aX = xString.toLong()
+            aY = yString.toLong()
+        } else if (it.startsWith("Button B: X+")) {
+
+            val substringAfter = it.substringAfter("Button B: X+")
+            val (xString, yString) = substringAfter.split(", Y+")
+            bX = xString.toLong()
+            bY = yString.toLong()
+        } else if(it.startsWith("Prize: X=")){
+
+            val substringAfter = it.substringAfter("Prize: X=")
+            val (xString, yString) = substringAfter.split(", Y=")
+            pX = xString.toLong()
+            pY = yString.toLong()
+        } else {
+            start.add(PrizeSearch(Pair(aX,aY), Pair(bX,bY),Pair(pX,pY)))
+
+            aX = 0L
+            aY= 0L
+            bX = 0L
+            bY= 0L
+            pX = 0L
+            pY= 0L
+        }
+
     }
     return start
 }
