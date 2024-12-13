@@ -193,7 +193,6 @@ fun getStartObjects(): List<PrizeSearch> {
             val (xString, yString) = substringAfter.split(", Y=")
             pX = xString.toLong()
             pY = yString.toLong()
-        } else {
             start.add(PrizeSearch(Pair(aX,aY), Pair(bX,bY),Pair(pX,pY)))
 
             aX = 0L
