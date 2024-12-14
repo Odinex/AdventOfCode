@@ -12,13 +12,39 @@ data class PrizeSearch (
 ) {
     var currentValue: Pair<Long, Long> = Pair(0L, 0L)
     var currentCost = 0L
+    var numB = 0L
+    var numA = 0L
 
+    fun calc() {
+        this.calculateCurrentValue(numA, numB)
+    }
      fun calculateCurrentValue(numberOfAButton: Long, numberOfBButton: Long) {
         val x = numberOfAButton * aMoveValues.first + numberOfBButton * bMoveValues.first
          val y = numberOfAButton * aMoveValues.second + numberOfBButton * bMoveValues.second
         this.currentCost = numberOfAButton * 3 + numberOfBButton * 1
         this.currentValue = Pair(x,y)
     }
+    fun calculateNumb(): Long {
+        // aMoveValues.second * (prizeValue.first - numB * bMoveValues.first)  = (aMoveValues.first * (prizeValue.second - numB * bMoveValues.second)
+
+//        aMoveValues.second * prizeValue.first - aMoveValues.second * numB * bMoveValues.first =
+//            (aMoveValues.first * prizeValue.second -  aMoveValues.first * numB * bMoveValues.second)
+
+              // aMoveValues.second * numB * bMoveValues.first  -  aMoveValues.first * numB * bMoveValues.second) = aMoveValues.second * prizeValue.first  - aMoveValues.first * prizeValue.second
+        numB =
+            aMoveValues.second * prizeValue.first - aMoveValues.first * prizeValue.second / (aMoveValues.second * bMoveValues.first - aMoveValues.first * bMoveValues.second)
+        calculateNumA()
+        return numB
+    }
+
+    fun calculateNumA() {
+//        prizeValue.first = numA * aMoveValues.first + numB * bMoveValues.first
+//        numA * aMoveValues.first = prizeValue.first - numB * bMoveValues.first
+        numA = (prizeValue.first - numB* bMoveValues.first)
+    }
+
+
+
 
     var hasReachedPrize: Boolean = isPrizeReached()
 
@@ -40,32 +66,39 @@ fun main() {
         var currentValue = prizeSearch.prizeValue.first
         val firstA = prizeSearch.aMoveValues.first
 
-        var yNumber: Long = 0L
+        var yNumber: Long = prizeSearch.calculateNumb()
 
         var minCost = Long.MAX_VALUE
-        var xNumber = 0L
-        while(yNumber >= 0L ) {
-            val l = prizeSearch.prizeValue.first - prizeSearch.aMoveValues.first * xNumber
-            if(l % prizeSearch.bMoveValues.first != 0L) {
-                continue;
-            }
-            yNumber =
-                l / prizeSearch.bMoveValues.first
-            if(yNumber < 0L) {
-                break
-            }
-            prizeSearch.calculateCurrentValue(xNumber, yNumber)
-            if(prizeSearch.isPrizeReached()) {
-                if(prizeSearch.currentCost < minCost) {
-                    minCost = prizeSearch.currentCost
-                }
+        prizeSearch.calc()
+        if(prizeSearch.isPrizeReached()) {
+            if(prizeSearch.currentCost < minCost) {
+                minCost = prizeSearch.currentCost
             }
         }
-        xNumber++;
-        if(minCost != Long.MAX_VALUE) {
-            cost+=minCost
-        }
+//        var xNumber = 0L
+//            val l = prizeSearch.prizeValue.second - prizeSearch.aMoveValues.second * yNumber
+//            if(l % prizeSearch.bMoveValues.first != 0L) {
+//                xNumber++;
+//                continue;
+//            }
+//            xNumber =
+//                l / prizeSearch.bMoveValues.second
+//
+//
+//            if(xNumber < 0L) {
+//                continue
+//            }
+//            prizeSearch.calculateCurrentValue(xNumber, yNumber)
+//            if(prizeSearch.isPrizeReached()) {
+//                if(prizeSearch.currentCost < minCost) {
+//                    minCost = prizeSearch.currentCost
+//                }
+//            }
+//            xNumber++;
 
+        if(minCost != Long.MAX_VALUE) {
+            cost += minCost
+        }
     }
     println(cost)
 }
