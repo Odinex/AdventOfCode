@@ -1,4 +1,7 @@
 import java.util.*
+import kotlin.math.cos
+import kotlin.math.min
+
 //
 //val startLongs = getStartInfo();
 data class PrizeSearch (
@@ -36,29 +39,31 @@ fun main() {
     for(prizeSearch in mutableList) {
         var currentValue = prizeSearch.prizeValue.first
         val firstA = prizeSearch.aMoveValues.first
-        val firstB = prizeSearch.bMoveValues.first
+
+        var yNumber: Long = 0L
+
         var minCost = Long.MAX_VALUE
-        var numberOfBButton: Long
-        var numberOfAButton = 0L
-        while (currentValue > 0) {
-            if(currentValue % firstB == 0L) {
-                numberOfBButton = currentValue / firstB
-                prizeSearch.calculateCurrentValue(numberOfAButton, numberOfBButton)
-                if(prizeSearch.isPrizeReached()) {
-                    if(prizeSearch.currentCost < minCost) {
-                        minCost = prizeSearch.currentCost
-                    }
+        var xNumber = 0L
+        while(yNumber >= 0L ) {
+            val l = prizeSearch.prizeValue.first - prizeSearch.aMoveValues.first * xNumber
+            if(l % prizeSearch.bMoveValues.first != 0L) {
+                continue;
+            }
+            yNumber =
+                l / prizeSearch.bMoveValues.first
+            if(yNumber < 0L) {
+                break
+            }
+            prizeSearch.calculateCurrentValue(xNumber, yNumber)
+            if(prizeSearch.isPrizeReached()) {
+                if(prizeSearch.currentCost < minCost) {
+                    minCost = prizeSearch.currentCost
                 }
             }
-            currentValue -= firstA
-            numberOfAButton++
-
         }
-
-//        val dfsResult = dfs(prizeSearch, memo)
-//        val minPrize = dfsResult.minBy { it.currentCost}
+        xNumber++;
         if(minCost != Long.MAX_VALUE) {
-            cost += minCost
+            cost+=minCost
         }
 
     }
@@ -191,8 +196,8 @@ fun getStartObjects(): List<PrizeSearch> {
 
             val substringAfter = it.substringAfter("Prize: X=")
             val (xString, yString) = substringAfter.split(", Y=")
-            pX = xString.toLong()
-            pY = yString.toLong()
+            pX = xString.toLong() + 10000000000000L
+            pY = yString.toLong() + 10000000000000L
             start.add(PrizeSearch(Pair(aX,aY), Pair(bX,bY),Pair(pX,pY)))
 
             aX = 0L
