@@ -25,12 +25,7 @@ data class PrizeSearch (
         this.currentValue = Pair(x,y)
     }
     fun calculateNumb(): Long {
-        // aMoveValues.second * (prizeValue.first - numB * bMoveValues.first)  = (aMoveValues.first * (prizeValue.second - numB * bMoveValues.second)
 
-//        aMoveValues.second * prizeValue.first - aMoveValues.second * numB * bMoveValues.first =
-//            (aMoveValues.first * prizeValue.second -  aMoveValues.first * numB * bMoveValues.second)
-
-              // aMoveValues.second * numB * bMoveValues.first  -  aMoveValues.first * numB * bMoveValues.second) = aMoveValues.second * prizeValue.first  - aMoveValues.first * prizeValue.second
         numB =
             aMoveValues.second * prizeValue.first - aMoveValues.first * prizeValue.second / (aMoveValues.second * bMoveValues.first - aMoveValues.first * bMoveValues.second)
         calculateNumA()
@@ -38,8 +33,6 @@ data class PrizeSearch (
     }
 
     fun calculateNumA() {
-//        prizeValue.first = numA * aMoveValues.first + numB * bMoveValues.first
-//        numA * aMoveValues.first = prizeValue.first - numB * bMoveValues.first
         numA = (prizeValue.first - numB* bMoveValues.first)
     }
 
@@ -56,6 +49,29 @@ data class PrizeSearch (
     }
 
 }
+
+fun calculateMinimumCost(prizeSearch: PrizeSearch): Long {
+    val (aX, aY) = prizeSearch.aMoveValues
+    val (bX, bY) = prizeSearch.bMoveValues
+    val (pX, pY) = Pair(prizeSearch.prizeValue.first , prizeSearch.prizeValue.second )
+
+    val denominator = aY * bX - aX * bY
+    if (denominator == 0L) return Long.MAX_VALUE
+
+    val numB = (aY * pX - aX * pY)
+    if (numB % denominator != 0L) return Long.MAX_VALUE
+    val bPresses = numB / denominator
+    if (bPresses < 0) return Long.MAX_VALUE
+
+
+    val numA = (pX - bPresses * bX)
+    if (numA % aX != 0L) return Long.MAX_VALUE
+    val aPresses = numA / aX
+    if (aPresses < 0) return Long.MAX_VALUE
+
+    return aPresses * 3 + bPresses * 1
+}
+
 private var general = 0L
 fun main() {
 
@@ -63,17 +79,9 @@ fun main() {
     var cost = 0L
     val memo = mutableMapOf<PrizeSearch, Long>()
     for(prizeSearch in mutableList) {
-        var currentValue = prizeSearch.prizeValue.first
-        val firstA = prizeSearch.aMoveValues.first
-
-        var yNumber: Long = prizeSearch.calculateNumb()
-
-        var minCost = Long.MAX_VALUE
-        prizeSearch.calc()
-        if(prizeSearch.isPrizeReached()) {
-            if(prizeSearch.currentCost < minCost) {
-                minCost = prizeSearch.currentCost
-            }
+        val calculateMinimumCost = calculateMinimumCost(prizeSearch)
+        if(calculateMinimumCost != Long.MAX_VALUE) {
+            cost +=calculateMinimumCost
         }
 //        var xNumber = 0L
 //            val l = prizeSearch.prizeValue.second - prizeSearch.aMoveValues.second * yNumber
@@ -95,10 +103,10 @@ fun main() {
 //                }
 //            }
 //            xNumber++;
-
-        if(minCost != Long.MAX_VALUE) {
-            cost += minCost
-        }
+//
+//        if(minCost != Long.MAX_VALUE) {
+//            cost += minCost
+//        }
     }
     println(cost)
 }
