@@ -20,7 +20,7 @@ val MoveDirectionMap = mapOf(
 
 var robotPosition: Pair<Int, Int> = Pair(-1, -1)
 var height = 0;
-val warehouse = getWareHouse()
+private val warehouse = getWareHouse()
 
 fun main() {
     val moves = getMoves()
@@ -110,16 +110,16 @@ fun getWareHouse(): MutableList<MutableList<Char>> {
 
 fun getMoves(): List<Move> {
     var start: MutableList<Move> = mutableListOf()
-    readFile(INPUT2)?.forEachLine {
+    readFile(TEST_INPUT2)?.forEachLine {
         it.forEach { c -> Move.valueOf(c)?.let { move -> start.add(move) } }
     }
     return start
 }
 
 
-private const val INPUT = "Current.txt"
-private const val INPUT2 = "Current2.txt"
-private const val TEST_INPUT = "CurrentTest.txt"
-private const val TEST_INPUT2 = "CurrentTest2.txt"
+const val INPUT = "Current.txt"
+const val INPUT2 = "Current2.txt"
+const val TEST_INPUT = "CurrentTest.txt"
+const val TEST_INPUT2 = "CurrentTest2.txt"
 fun readFile(fileName: String) = object {}.javaClass.getResourceAsStream(fileName)?.reader()
 
