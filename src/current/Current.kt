@@ -1,4 +1,5 @@
 import utils.Utils
+import kotlin.math.abs
 
 
 enum class Move(val value: Char) {
@@ -17,14 +18,24 @@ val MoveDirectionMap = mapOf(
     Pair(Move.UP, Utils.Direction.UP), Pair(Move.DOWN, Utils.Direction.DOWN),
     Pair(Move.LEFT, Utils.Direction.LEFT), Pair(Move.RIGHT, Utils.Direction.RIGHT)
 )
+data class Robot(var robotPosition: Pair<Int, Int> = Pair(-1, -1)) {
+    fun setRobotPositionAndValidate(nextStep: Pair<Int, Int>) {
+        if(abs(robotPosition.first - nextStep.first) > 1 && abs(robotPosition.second - nextStep.second) > 1) {
+            throw Exception("WTF")
+        }else {
+            robotPosition = nextStep
+        }
 
-var robotPosition: Pair<Int, Int> = Pair(-1, -1)
+    }
+}
+
 var height = 0;
-private val warehouse = getWareHouse()
+var warehouse = getWareHouse()
 
 fun main() {
     val moves = getMoves()
     var time = 0
+
     for (move in moves) {
         val direction = MoveDirectionMap[move]
         val newPosition = direction?.let { getNewPosition(it, robotPosition) }
@@ -32,6 +43,7 @@ fun main() {
             val newPositionElement = warehouse[newPosition.first][newPosition.second]
             if (newPositionElement != '#') {
                 if (newPositionElement == '.') {
+                    printWarehouse()
                     warehouse[robotPosition.first][robotPosition.second] = '.'
                     robotPosition = newPosition
                     warehouse[newPosition.first][newPosition.second] = '@'
@@ -61,7 +73,7 @@ fun main() {
     println(sum)
 
 }
-private fun printWarehouse() {
+fun printWarehouse() {
     warehouse.forEach { it.forEach { c -> print(c)}
     println()
     }
@@ -91,8 +103,8 @@ fun getNextDot(direction: Utils.Direction): Pair<Int,Int> {
 fun getNewPosition(direction: Utils.Direction, position: Pair<Int, Int>): Pair<Int, Int> {
     return Pair(position.first + direction.pair.first, position.second + direction.pair.second)
 }
-
-
+var robot = Robot(Pair(-1, -1))
+var robotPosition = Pair(-1,-1)
 fun getWareHouse(): MutableList<MutableList<Char>> {
     var start: MutableList<MutableList<Char>> = mutableListOf()
     var currentLine = 0
@@ -101,6 +113,7 @@ fun getWareHouse(): MutableList<MutableList<Char>> {
         val indexOf = it.indexOf('@')
         if (indexOf != -1) {
             robotPosition = Pair(currentLine, indexOf)
+            robot = Robot(robotPosition)
         }
         currentLine++
     }
@@ -110,7 +123,7 @@ fun getWareHouse(): MutableList<MutableList<Char>> {
 
 fun getMoves(): List<Move> {
     var start: MutableList<Move> = mutableListOf()
-    readFile(TEST_INPUT2)?.forEachLine {
+    readFile(INPUT2)?.forEachLine {
         it.forEach { c -> Move.valueOf(c)?.let { move -> start.add(move) } }
     }
     return start
