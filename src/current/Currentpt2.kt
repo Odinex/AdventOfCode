@@ -1,18 +1,23 @@
 import utils.Utils
 
 
-
+val handledPairs = mutableListOf<Pair<Int,Int>>()
+val pairsToBeHandled = mutableListOf<Pair<Pair<Int,Int>, Boolean>>()
 fun main() {
     val moves = getMoves()
     var time = 0
     warehouse = getWareHouse()
+    val rollback = warehouse.toList()
     for ((index, move) in moves.withIndex()) {
-        if(index == 137) {
+
+        handledPairs.clear()
+        if(index == 278) {
             printWarehouse()
         }
         val direction = MoveDirectionMap[move]
         val newPosition = direction?.let { getNewPosition(it, robot.robotPosition) }
-
+        val startPositions = mutableListOf<Pair<Pair<Int,Int>, Boolean>>()
+        var isOk = true
         if (newPosition != null) {
             val newPositionElement = warehouse[newPosition.first][newPosition.second]
             if (newPositionElement != '#') {
@@ -22,38 +27,48 @@ fun main() {
                     warehouse[newPosition.first][newPosition.second] = '@'
                 } else {
 
-                    val set = mutableSetOf<Int>()
-                    val startPositions = mutableListOf(Pair(robot.robotPosition, false))
+                    startPositions.add(Pair(robot.robotPosition, false))
                     var adjacentToRobotDot: Pair<Int,Int>? = null
                     if(direction == Utils.Direction.UP || direction == Utils.Direction.DOWN) {
-                        set.add(robot.robotPosition.second)
                         var oneStepDirection = Utils.Direction.LEFT
                         if(warehouse[newPosition.first][newPosition.second] == '[') {
                             oneStepDirection = Utils.Direction.RIGHT
                         }
                         adjacentToRobotDot = getNewPosition(oneStepDirection, robot.robotPosition)
                         startPositions.add(Pair(adjacentToRobotDot, true))
-                        set.add(adjacentToRobotDot.second)
+                        handledPairs
                     }
-                    val visited = mutableSetOf<Pair<Utils.Direction,Pair<Int,Int>>>()
-                    val visitedColumns = mutableSetOf<Int> ()
-                    val mapStartToFinish = startPositions.associateWith {
-                        getNextDotsFromPosition(direction, it.first, visited, visitedColumns)
-                    }
-                    if(mapStartToFinish.isEmpty() || mapStartToFinish.values.any { it.isEmpty() || it.any { dot -> dot.first == -1}}) {
-                        continue
-                    }
+
                     for(startPosition in startPositions) {
 
-                        push(direction, startPosition,set)
+                        isOk = push(direction, startPosition)
+                        if(!isOk) {
+                            break
+                        }
+                    }
+                    if(isOk) {
+                        while (pairsToBeHandled.isNotEmpty()) {
+                            if(!isnotok() && pairsToBeHandled.size == 1) {
+                                pairsToBeHandled.removeFirst()
+                                break
+                            }
+                            val startPositionPair = pairsToBeHandled.removeFirst()
+                            isOk = push(direction, startPositionPair)
+                            if(!isOk) {
+                                break
+                            }
+                        }
+                    }
+                    if(!isOk) {
+                        warehouse = rollback.toMutableList()
+                        continue
                     }
                 }
             } else {
                 continue
             }
-            if(warehouse.any { it.toString().contains("[, .") || it.toString().contains("., ]")|| it.toString().contains("[, [")
-                        || it.toString().contains("], ]")}) {
-                printWarehouse()
+            printWarehouse()
+            if(isnotok()) {
                 throw Exception()
             }
         }
@@ -72,16 +87,22 @@ fun main() {
 
 }
 
-private fun push(
+private fun isnotok() =
+    warehouse.any {
+        it.toString().contains("[, .") || it.toString().contains("., ]") || it.toString().contains("[, [")
+                || it.toString().contains("], ]")
+    }
+
+fun push(
     direction: Utils.Direction,
-    startPositionPair: Pair<Pair<Int, Int>, Boolean>,
-    visitedColumns: MutableSet<Int>
+    startPositionPair: Pair<Pair<Int, Int>, Boolean>
 ): Boolean {
     val startPosition = startPositionPair.first
     val nextDot = getNextDotFromPosition(direction, startPosition)
-    if(nextDot.first == -1) {
+    if(nextDot.first == -1 || handledPairs.contains(nextDot)) {
         return false
     }
+    handledPairs.add(nextDot)
     var nextStep = getNewPosition(direction, startPosition)
     var currentElement = warehouse[startPosition.first][startPosition.second]
     var nextElement = warehouse[nextStep.first][nextStep.second]
@@ -104,24 +125,27 @@ private fun push(
 
         var shouldPushDiagonally = false
         if (direction == Utils.Direction.UP || direction == Utils.Direction.DOWN) {
-            getAdjacentStepIfPushingDiagonally(direction, nextElement, nextStep, visitedColumns)?.let {
+            getAdjacentStepIfPushingDiagonally(direction, nextElement, nextStep)?.let { pairs ->
                 shouldPushDiagonally = true
-                for(adjacent in it) {
-                    push(direction, Pair(adjacent, false),visitedColumns)
+                for(adjacent in pairs) {
+                    val element = getNextDotFromPosition(direction, adjacent)
+                    if(handledPairs.none {element.second == it.second && element.first < it.first} && pairsToBeHandled.none { it.first.second == element.second}) {
+                        pairsToBeHandled.add(Pair(adjacent, false))
+                    }
                 }
             }
         }
         warehouse[nextStep.first][nextStep.second] = currentElement
 
     }
+    pairsToBeHandled.remove(startPositionPair)
     return true
 }
 
-private fun getAdjacentStepIfPushingDiagonally(
+fun getAdjacentStepIfPushingDiagonally(
     originalDirection: Utils.Direction,
     nextElement: Char,
-    position: Pair<Int, Int>,
-    visitedColumns: MutableSet<Int>
+    position: Pair<Int, Int>
 ): List<Pair<Int,Int>> {
     val mutableListOf = mutableListOf<Pair<Int, Int>>()
     var oneStepDirection: Utils.Direction? = null
@@ -133,11 +157,7 @@ private fun getAdjacentStepIfPushingDiagonally(
     if (oneStepDirection != null) {
         var adjacentRandomStep: Pair<Int,Int>? = null
         adjacentRandomStep = getNewPosition(oneStepDirection, position)
-        if(visitedColumns.contains(adjacentRandomStep.second)) {
-            return mutableListOf
-        } else {
-            visitedColumns.add(adjacentRandomStep.second)
-        }
+
         //
         mutableListOf.add(adjacentRandomStep)
 //        if(oneStepDirection == Utils.Direction.RIGHT && warehouse[adjacentRandomStep.first][adjacentRandomStep.second] == ']' ||
@@ -170,13 +190,11 @@ fun getNextDotFromPosition(direction: Utils.Direction, position: Pair<Int,Int>):
 fun getNextDotsFromPosition(
     direction: Utils.Direction,
     position: Pair<Int, Int>,
-    visited: MutableSet<Pair<Utils.Direction, Pair<Int, Int>>>,
-    visitedColumns: MutableSet<Int>
+    visited: MutableSet<Pair<Utils.Direction, Pair<Int, Int>>>
 ): List<Pair<Int,Int>> {
     var x = -1
     var y = -1
     var newPosition = position
-    visitedColumns.add(newPosition.second)
     var previousPosition = position
     var dots = mutableListOf<Pair<Int,Int>>()
     while(true) {
@@ -191,24 +209,23 @@ fun getNextDotsFromPosition(
                 break
             } else if (previousPosition != newPosition) {
                 val previousPositionElement = warehouse[previousPosition.first][previousPosition.second]
-                getAdjacentStepIfPushingDiagonally(direction, newPositionElement, newPosition, visitedColumns)?.let{
+                getAdjacentStepIfPushingDiagonally(direction, newPositionElement, newPosition)?.let{
 
                     for(adjacent in it) {
-                        if(visited.contains(Pair(direction,adjacent))) {
-                            continue
-                        }
-                        val nextDotsFromPosition = getNextDotsFromPosition(direction, adjacent, visited, visitedColumns)
-                        if(nextDotsFromPosition.any { dot -> dot.first == -1}) {
+                        val nextDotsFromPosition = getNextDotsFromPosition(direction, adjacent, visited).filter {  !visited.contains(Pair(direction, it)) }
+                        if(nextDotsFromPosition.isEmpty() || nextDotsFromPosition.any { dot -> dot.first == -1}) {
                             return listOf(Pair(-1,-1))
                         }
+
                         dots.addAll(nextDotsFromPosition)
+                        nextDotsFromPosition.forEach { visited.add(Pair(direction, it))}
                     }
                 }
 
             }
         }
         previousPosition = newPosition
-        visited.add(Pair(direction, previousPosition))
+        visited.add(Pair(direction, getNextDotFromPosition(direction, previousPosition)))
         newPosition = getNewPosition(direction, newPosition)
     }
     dots.add(Pair(x,y))

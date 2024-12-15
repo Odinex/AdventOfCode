@@ -118,7 +118,26 @@ fun getWareHouse(): MutableList<MutableList<Char>> {
         currentLine++
     }
     height = currentLine;
-    return start
+    val expandedWarehouse = mutableListOf<MutableList<Char>>()
+    for ((index, row) in start.withIndex()) {
+        val expandedRow = mutableListOf<Char>()
+        for (c in row) {
+            when (c) {
+                '#' -> expandedRow.addAll(listOf('#', '#'))
+                'O' -> expandedRow.addAll(listOf('[', ']'))
+                '.' -> expandedRow.addAll(listOf('.', '.'))
+                '@' -> expandedRow.addAll(listOf('@', '.'))
+            }
+        }
+        expandedWarehouse.add(expandedRow)
+        val indexOf = expandedRow.indexOf('@')
+        if (indexOf != -1) {
+            robotPosition = Pair(index, indexOf)
+            robot = Robot(robotPosition)
+        }
+    }
+
+    return expandedWarehouse
 }
 
 fun getMoves(): List<Move> {
