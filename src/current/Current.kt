@@ -96,7 +96,7 @@ fun getNewPosition(direction: Utils.Direction, position: Pair<Int, Int>): Pair<I
 fun getWareHouse(): MutableList<MutableList<Char>> {
     var start: MutableList<MutableList<Char>> = mutableListOf()
     var currentLine = 0
-    readFile(TEST_INPUT)?.forEachLine {
+    readFile(INPUT)?.forEachLine {
         start.add(it.toMutableList())
         val indexOf = it.indexOf('@')
         if (indexOf != -1) {
@@ -110,7 +110,7 @@ fun getWareHouse(): MutableList<MutableList<Char>> {
 
 fun getMoves(): List<Move> {
     var start: MutableList<Move> = mutableListOf()
-    readFile(TEST_INPUT2)?.forEachLine {
+    readFile(INPUT2)?.forEachLine {
         it.forEach { c -> Move.valueOf(c)?.let { move -> start.add(move) } }
     }
     return start
@@ -118,6 +118,7 @@ fun getMoves(): List<Move> {
 
 
 private const val INPUT = "Current.txt"
+private const val INPUT2 = "Current2.txt"
 private const val TEST_INPUT = "CurrentTest.txt"
 private const val TEST_INPUT2 = "CurrentTest2.txt"
 fun readFile(fileName: String) = object {}.javaClass.getResourceAsStream(fileName)?.reader()
