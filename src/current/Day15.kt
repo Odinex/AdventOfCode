@@ -16,8 +16,8 @@ fun main() {
             val nextStep = Pair(start.first + d.pair.first, start.second + d.pair.second)
             visited[start] = 1
             if (nextStep.first in matrix.indices && nextStep.second in matrix.indices && matrix[nextStep.first][nextStep.second] == '.') {
-
-                val currentShortest = dfs(nextStep, 2, 0, d, visited)
+                val turn = if(d==Utils.Direction.RIGHT) 0L else 1L
+                val currentShortest = dfs(nextStep, 2, turn, d, visited)
                 if(currentShortest != null) {
                     val calculated =currentShortest.first + 1000*currentShortest.second
                     if (calculated < shortest) {
@@ -26,7 +26,7 @@ fun main() {
                 }
             }
         }
-        println(shortest)
+        println(sho)
     }
 }
 var sho = Long.MAX_VALUE
@@ -55,6 +55,7 @@ private fun dfs(
             return null
         }
     }
+    visited[current] = count
 
     if(currentChar == '#') {
         return null;
@@ -70,23 +71,21 @@ private fun dfs(
                 return Pair(count, turns)
             }
             if (char == '.') {
-                visited[current] = count
-                if(currentDirection != direction) {
-                    currentTurns++
-                }
-                val dfs = dfs(nextStep, count + 1, currentTurns, direction, visited)
+                val nextTurns = if (currentDirection != direction) {
+                    currentTurns + 1
+                } else currentTurns
+                val dfs = dfs(nextStep, count + 1, nextTurns, direction, visited)
 
                 if(dfs != null) {
                     if(dfs.first + dfs.second*1000 < sho) {
                         sho =  dfs.first + dfs.second*1000
                     }
-                    counts.add(dfs)
                 }
             }
         } catch (_: Exception) {return null}
     }
 
-    return if(counts.isEmpty()) null else counts.minBy { it.first + it.second*1000}
+    return null
 }
 
 
