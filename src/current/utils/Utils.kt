@@ -25,9 +25,9 @@ class Utils {
     )
     enum class Direction(val pair: Pair<Int, Int>) {
         RIGHT(Pair(0, 1)),   // right
+        UP(Pair(-1, 0)),
         LEFT(Pair(0, -1)),  // left
-        DOWN(Pair(1, 0)),   // down
-        UP(Pair(-1, 0));
+        DOWN(Pair(1, 0));   // down
 
         companion object {
             fun getOpposite(currentDirection: Direction): Direction {

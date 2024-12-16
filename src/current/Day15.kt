@@ -12,9 +12,9 @@ fun main() {
 
     if(start != null) {
         for(d in Utils.Direction.entries) {
-            val visited = mutableListOf<Pair<Pair<Int, Int>, Long>>()
+            val visited = mutableMapOf<Pair<Int, Int>, Long>()
             val nextStep = Pair(start.first + d.pair.first, start.second + d.pair.second)
-            visited.add(Pair(start,1))
+            visited[start] = 1
             if (nextStep.first in matrix.indices && nextStep.second in matrix.indices && matrix[nextStep.first][nextStep.second] == '.') {
 
                 val currentShortest = dfs(nextStep, 2, 0, d, visited)
@@ -29,13 +29,13 @@ fun main() {
         println(shortest)
     }
 }
-
+var sho = Long.MAX_VALUE
 private fun dfs(
     current: Pair<Int, Int>,
     count: Long,
     turns: Long,
     currentDirection: Utils.Direction,
-    visited: MutableList<Pair<Pair<Int, Int>, Long>>
+    visited: MutableMap<Pair<Int, Int>, Long>
 ): Pair<Long, Long>? {
     var currentTurns = turns
     val currentChar =
@@ -44,10 +44,13 @@ private fun dfs(
     if (currentChar == 'E') {
         return Pair(count, turns)
     }
-    val contains = visited.find { it.first == current}
+    if(sho < count + turns*1000) {
+        return null
+    }
+    val contains = visited[current]
     if (contains != null) {
-        if(contains.second > count) {
-            visited.remove(contains)
+        if(contains > count) {
+            visited.remove(current)
         } else {
             return null
         }
@@ -55,7 +58,7 @@ private fun dfs(
 
     if(currentChar == '#') {
         return null;
-    }
+    } //123424
     val oppositeDir = Utils.Direction.getOpposite(currentDirection);
     val directions = Utils.Direction.entries.filter { dir -> dir != oppositeDir }
     val counts = mutableListOf<Pair<Long, Long>>()
@@ -67,14 +70,16 @@ private fun dfs(
                 return Pair(count, turns)
             }
             if (char == '.') {
-                visited.add(current to count)
+                visited[current] = count
                 if(currentDirection != direction) {
                     currentTurns++
                 }
                 val dfs = dfs(nextStep, count + 1, currentTurns, direction, visited)
 
                 if(dfs != null) {
-
+                    if(dfs.first + dfs.second*1000 < sho) {
+                        sho =  dfs.first + dfs.second*1000
+                    }
                     counts.add(dfs)
                 }
             }
