@@ -2,17 +2,56 @@ import utils.Utils
 import java.util.*
 import kotlin.collections.HashMap
 
-class Day15 {
-
-}
 
 val pair = getStartInfo()
 val start: Pair<Int, Int>? = pair.first
 val end: Pair<Int, Int>? = pair.second
 val matrix = pair.third
-var shortest: Long = Long.MAX_VALUE;
+var sho = Long.MAX_VALUE
 fun main() {
 
+    if (start != null && end != null) {
+        val queue = PriorityQueue<Triple<List<Pair<Int, Int>>, Utils.Direction, Int>>(compareBy { it.third })
+        val list = LinkedList<Pair<Int, Int>>()
+        list.addLast(start)
+        queue.add(Triple(list, Utils.Direction.RIGHT, 0))
+
+        val bestSeats = mutableSetOf<Pair<Int,Int>>()
+        val seen = HashMap<Pair<Pair<Int, Int>, Utils.Direction>, Int>()
+        while (queue.isNotEmpty()) {
+            val (pairs, dir, score) = queue.poll()
+
+            val last = pairs.last()
+            if (last == end) {
+                if (score <= sho) {
+                    sho = score.toLong()
+                }
+
+                bestSeats.addAll(pairs)
+            }
+
+            val lastWithDirection = last to dir
+            if (seen[lastWithDirection] != null && seen[lastWithDirection]!! < score) continue
+            seen[lastWithDirection] = score
+            val x = last.first + dir.pair.first
+            val y = last.second + dir.pair.second
+
+            if (x < matrix.size && y < matrix[x].size && matrix[x][y] != '#') {
+
+                queue.add(Triple(pairs + Pair(x, y), dir, score + 1))
+            }
+            val perpendicular = Utils.Direction.getPerpendicular(dir)
+            perpendicular.forEach {
+                queue.add(Triple(pairs, it, score + 1000))
+            }
+        }
+        println(bestSeats.size)
+
+        println(sho)
+    }
+}
+
+private fun solvePt1() {
     if (start != null && end != null) {
         val queue = PriorityQueue<Triple<Pair<Int, Int>, Utils.Direction, Int>>(compareBy { it.third })
         queue.add(Triple(start, Utils.Direction.RIGHT, 0))
@@ -42,26 +81,11 @@ fun main() {
             }
         }
 
-//        for (d in Utils.Direction.entries) {
-//            val visited = mutableMapOf<Pair<Int, Int>, Long>()
-//            val nextStep = Pair(start.first + d.pair.first, start.second + d.pair.second)
-//            visited[start] = 1
-//            if (nextStep.first in matrix.indices && nextStep.second in matrix.indices && matrix[nextStep.first][nextStep.second] == '.') {
-//                val turn = if (d == Utils.Direction.RIGHT) 0L else 1L
-//                val currentShortest = dfs(nextStep, 2, turn, d, visited)
-//                if (currentShortest != null) {
-//                    val calculated = currentShortest.first + 1000 * currentShortest.second
-//                    if (calculated < shortest) {
-//                        shortest = calculated
-//                    }
-//                }
-//            }
-//        }
+
         println(sho)
     }
 }
 
-var sho = Long.MAX_VALUE
 private fun dfs(
     current: Pair<Int, Int>,
     count: Long,
