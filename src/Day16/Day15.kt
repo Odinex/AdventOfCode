@@ -152,7 +152,7 @@ private fun getStartInfo(): Triple<Pair<Int, Int>?, Pair<Int, Int>?, Array<CharA
     var end: Pair<Int, Int>? = null
     var currentLineIndex = 0
     val matrix = mutableListOf<List<Char>>()
-    readFile("Day15.txt")?.forEachLine {
+    readFile("src/Day16/Day15.txt/Day15.txt")?.forEachLine {
         matrix.add(it.toList())
         val indexOf = it.indexOf('S')
         if (indexOf != -1) {

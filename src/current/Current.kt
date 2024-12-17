@@ -1,157 +1,125 @@
-import utils.Utils
-import kotlin.math.abs
+var A: Int = 0
+var B: Int = 0
+var C: Int = 0
 
-
-enum class Move(val value: Char) {
-    UP('^'), DOWN('v'), LEFT('<'), RIGHT('>');
-
-    companion object {
-        fun valueOf(value: Char): Move? {
-            return entries.find { it.value == value } ?: null
-
+class ThreeBit {
+    private var value: Int = 0
+        get() = field
+        set(value) {
+            if(value in 0..7) {
+                field = value
+            } else {
+                throw Exception("Invalid value")
+            }
         }
 
+    constructor(value: Int) {
+        this.value = value
     }
-}
 
-val MoveDirectionMap = mapOf(
-    Pair(Move.UP, Utils.Direction.UP), Pair(Move.DOWN, Utils.Direction.DOWN),
-    Pair(Move.LEFT, Utils.Direction.LEFT), Pair(Move.RIGHT, Utils.Direction.RIGHT)
-)
-data class Robot(var robotPosition: Pair<Int, Int> = Pair(-1, -1)) {
-    fun setRobotPositionAndValidate(nextStep: Pair<Int, Int>) {
-        if(abs(robotPosition.first - nextStep.first) > 1 && abs(robotPosition.second - nextStep.second) > 1) {
+    fun getPowed(): Int {
+        val combo = getCombo()
+        return combo*combo
+    }
+    fun getLong(): Long {
+        return value.toLong()
+    }
+    fun get() = value
+    fun getCombo(): Int {
+        if(value % 8 in 0..3) {
+            return 1 shl value
+        } else if(value % 8 == 4) {
+            return A
+        } else if(value % 8 == 5) {
+            return B
+        } else if(value % 8 == 6) {
+            return C
+        } else {
             throw Exception("WTF")
-        }else {
-            robotPosition = nextStep
         }
-
     }
 }
 
-var height = 0;
-var warehouse = getWareHouse()
+var currentIndex = 0;
+val instructions = ArrayList<ThreeBit>(8)
+fun jumb() {
+   currentIndex += 2
+}
+fun adv(operand: ThreeBit) {
+    A = divAByComboPowed(operand)
+}
+
+private fun divAByComboPowed(operand: ThreeBit) = A.div( operand.getPowed())
+fun xor(int: Int, other: Int): Int {
+    return int.toLong().xor(other.toLong()).toInt()
+}
+fun bxl(operand: ThreeBit) {
+    B = xor(B,operand.get())
+}
+fun bst(operand: ThreeBit) {
+    B = operand.getCombo() % 8
+}
+var skipJump = false
+fun jnz(operand: ThreeBit) {
+    if(A != 0) {
+        currentIndex = operand.get()
+        shouldSkipJump = true
+    }
+}
+fun bxc() {
+    B = xor(B, C)
+}
+fun out(operand: ThreeBit) {
+    if(output.isNotBlank()) {
+        output.append(',')
+    }
+    val i = operand.getCombo() % 8
+    output.append(i)
+}
+var output = StringBuilder()
+var shouldSkipJump = false
+fun readInstruction() {
+    while(currentIndex < instructions.size) {
+        val opCode = instructions[currentIndex]
+        val operand = instructions[currentIndex + 1]
+        execute(opCode, operand)
+        if(opCode.get() != 3) {
+            shouldSkipJump = false
+        }
+        if (!shouldSkipJump) {
+            jumb()
+        }
+    }
+    println(output.toString())
+}
+
+private fun execute(opCode: ThreeBit, operand: ThreeBit) {
+    when (opCode.get()) {
+        0 -> adv(operand)
+        1 -> bxl(operand)
+        2 -> bst(operand)
+        3 -> jnz(operand)
+        4 -> bxc()
+        5 -> out(operand)
+        6 -> bdv(operand)
+        7 -> cdv(operand)
+    }
+}
+
+fun bdv(operand: ThreeBit) {
+    B = divAByComboPowed(operand)
+}
+
+fun cdv(operand: ThreeBit) {
+    C = divAByComboPowed(operand)
+}
 
 fun main() {
-    val moves = getMoves()
-    var time = 0
-
-    for (move in moves) {
-        val direction = MoveDirectionMap[move]
-        val newPosition = direction?.let { getNewPosition(it, robotPosition) }
-        if (newPosition != null) {
-            val newPositionElement = warehouse[newPosition.first][newPosition.second]
-            if (newPositionElement != '#') {
-                if (newPositionElement == '.') {
-                    printWarehouse()
-                    warehouse[robotPosition.first][robotPosition.second] = '.'
-                    robotPosition = newPosition
-                    warehouse[newPosition.first][newPosition.second] = '@'
-                } else {
-                    val nextDot = getNextDot(direction)
-                    if (nextDot.first != -1) {
-                        var nextStep = newPosition
-                        warehouse[robotPosition.first][robotPosition.second] = '.'
-                        robotPosition = nextStep
-                        warehouse[nextStep.first][nextStep.second] = '@'
-                        warehouse[nextDot.first][nextDot.second] = 'O'
-                    }
-                }
-            } else {
-                continue
-            }
-        }
-    }
-    var sum =0
-    for(x in 0..<warehouse.size) {
-        for(y in 0..<warehouse[x].size) {
-            if(warehouse[x][y] == 'O') {
-                sum += 100 *x + y
-            }
-        }
-    }
-    println(sum)
+//    A = 60589763
+//    instructions.addAll(listOf(2,4,1,5,7,5,1,6,4,1,5,5,0,3,3,0).map { ThreeBit(it)})
+    B = 2024
+    C = 43690
+    instructions.addAll(listOf(4,0).map { ThreeBit(it)})
+    readInstruction()
 
 }
-fun printWarehouse() {
-    warehouse.forEach { it.forEach { c -> print(c)}
-    println()
-    }
-}
-
-fun getNextDot(direction: Utils.Direction): Pair<Int,Int> {
-    var x = -1
-    var y = -1
-    var newPosition = robotPosition
-    while(true) {
-        val newPositionElement = warehouse[newPosition.first][newPosition.second]
-
-        if (newPositionElement == '#') {
-            break
-        } else {
-            if(newPositionElement == '.') {
-                x = newPosition.first
-                y = newPosition.second
-                break
-            }
-        }
-        newPosition = getNewPosition(direction, newPosition)
-    }
-    return x to y
-}
-
-fun getNewPosition(direction: Utils.Direction, position: Pair<Int, Int>): Pair<Int, Int> {
-    return Pair(position.first + direction.pair.first, position.second + direction.pair.second)
-}
-var robot = Robot(Pair(-1, -1))
-var robotPosition = Pair(-1,-1)
-fun getWareHouse(): MutableList<MutableList<Char>> {
-    var start: MutableList<MutableList<Char>> = mutableListOf()
-    var currentLine = 0
-    readFile(INPUT)?.forEachLine {
-        start.add(it.toMutableList())
-        val indexOf = it.indexOf('@')
-        if (indexOf != -1) {
-            robotPosition = Pair(currentLine, indexOf)
-            robot = Robot(robotPosition)
-        }
-        currentLine++
-    }
-    height = currentLine;
-    val expandedWarehouse = mutableListOf<MutableList<Char>>()
-    for ((index, row) in start.withIndex()) {
-        val expandedRow = mutableListOf<Char>()
-        for (c in row) {
-            when (c) {
-                '#' -> expandedRow.addAll(listOf('#', '#'))
-                'O' -> expandedRow.addAll(listOf('[', ']'))
-                '.' -> expandedRow.addAll(listOf('.', '.'))
-                '@' -> expandedRow.addAll(listOf('@', '.'))
-            }
-        }
-        expandedWarehouse.add(expandedRow)
-        val indexOf = expandedRow.indexOf('@')
-        if (indexOf != -1) {
-            robotPosition = Pair(index, indexOf)
-            robot = Robot(robotPosition)
-        }
-    }
-
-    return expandedWarehouse
-}
-
-fun getMoves(): List<Move> {
-    var start: MutableList<Move> = mutableListOf()
-    readFile(INPUT2)?.forEachLine {
-        it.forEach { c -> Move.valueOf(c)?.let { move -> start.add(move) } }
-    }
-    return start
-}
-
-
-const val INPUT = "Current.txt"
-const val INPUT2 = "Current2.txt"
-const val TEST_INPUT = "CurrentTest.txt"
-const val TEST_INPUT2 = "CurrentTest2.txt"
-fun readFile(fileName: String) = object {}.javaClass.getResourceAsStream(fileName)?.reader()
-
