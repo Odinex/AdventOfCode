@@ -115,13 +115,13 @@ private suspend fun checkIsPossible(
 }
 
 private fun getStartInfo() = flow {
-    readFile("Current.txt")?.useLines { lines ->
+    readFile("CurrentTest.txt")?.useLines { lines ->
         lines.forEach { line -> line.split(", ").forEach { emit(it) } }
     }
 }
 
 private fun getStartFlags() = flow {
-    readFile("Current2.txt")?.useLines { lines ->
+    readFile("CurrentTest2.txt")?.useLines { lines ->
         lines.forEach { emit(it) }
     }
 }
