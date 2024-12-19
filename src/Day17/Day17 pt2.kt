@@ -1,6 +1,5 @@
 import java.util.*
 import kotlin.math.pow
-import kotlin.math.sqrt
 
 
 var A = 0
