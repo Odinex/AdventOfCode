@@ -1,112 +1,88 @@
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.util.*
+import kotlin.math.min
 import kotlin.math.max
 
 @OptIn(ExperimentalCoroutinesApi::class)
 suspend fun main() = coroutineScope {
     val stripes = getStartInfo().toList().sortedByDescending { it.length }
-    val stripesCombos = mutableMapOf<String, Set<String>>()
+    val stripeCombos = mutableMapOf<String, Set<String>>()
 
     val flags = getStartFlags().toList()
     val minStripeSize = stripes.minOf { it.length }
     val maxStripeSize = stripes.maxOf { it.length }
-    val mapOfStripes = stripes.groupBy { it.length}
-    val mutant = stripes.toMutableList()
-    while(mutant.size > 2) {
-        val s1 = mutant.removeFirst()
-        val minS = mutant.minOf { it.length }
-        val maxS = mutant.maxOf { it.length }
-        val checkIsPossible = checkIsPossible(s1, mutant.groupBy { it.length }, minS, maxS)
-        if(checkIsPossible.first) {
-                stripesCombos[s1] = checkIsPossible.second
+    val stripesByLength = stripes.groupBy { it.length }
+
+    val stripeQueue = stripes.toMutableList()
+    while (stripeQueue.size > 2) {
+        val currentStripe = stripeQueue.removeFirst()
+        val checkResult = checkIsPossible(currentStripe, stripeQueue.groupBy { it.length }, stripeQueue.minOf { it.length }, stripeQueue.maxOf { it.length })
+        if (checkResult.first) {
+            stripeCombos[currentStripe] = checkResult.second
         }
-//
-//        val filter2 =
-//            mutant.filter { s2 -> s1.substring(0, s2.length).contains(s2) && mutant.co(s1.substring(s2.length)) }
-//        if(filter2.isNotEmpty()) {
-//            for(s2 in filter2) {
-//                val s3 = s1.substring(s2.length)
-//                val pairs = stripesCombos[s1]
-//                if(pairs != null) {
-//                    stripesCombos[s1] = pairs + Pair(s2,s3)
-//                } else {
-//                    stripesCombos[s1] = listOf(Pair(s2,s3))
-//                }
-//            }
-//
-//        }
     }
+
     var count = 0
     flags.asFlow()
-        .flatMapMerge(Runtime.getRuntime().availableProcessors()) { flag ->
+        .flatMapMerge(concurrency = 2) { flag ->
             flow {
-                val isPossible = checkIsPossible(flag, mapOfStripes, minStripeSize, maxStripeSize)
-                if (isPossible.first) {
-                    emit(isPossible)
-                }
+                val isPossible = checkIsPossible(flag, stripesByLength, minStripeSize, maxStripeSize)
+                if (isPossible.first) emit(isPossible)
             }
         }
         .collect { possibleFlag ->
-            //count += possibleFlag.second
-            val allPossibleCombo = mutableSetOf<Set<String>>()
-            allPossibleCombo.add(possibleFlag.second)
+            val allCombos = mutableSetOf<Set<String>>()
+            allCombos.add(possibleFlag.second.toMutableSet())
+            val batchSize = 1000 // 65083306
+            val batch = mutableSetOf<Set<String>>()
+            val processed = mutableSetOf<Pair<String, Set<String>>>()
+            possibleFlag.second.forEach { stripe ->
+                val stack = ArrayDeque<Pair<String, Set<String>>>()
+                stripeCombos[stripe]?.let { stack.add(stripe to it) }
 
-            for (i in possibleFlag.second) {
-                val currentSet = possibleFlag.second.toMutableSet()
-                var current = i
-                val set = stripesCombos[current]
-                val stack = Stack<Pair<String, Set<String>>>()
-                if(set != null) {
-                    stack.add(Pair(current, set))
-
-                    while(stack.isNotEmpty()) {
-                        val (c, setOfCParts) = stack.removeFirst()
-                        val toList = allPossibleCombo.toList()
-                        toList.forEach { resultSet ->
-                            val mutableResultSet = resultSet.toMutableSet()
-                            val removedSuccess = mutableResultSet.remove(c)
-                            if(removedSuccess) {
-                                mutableResultSet.addAll(setOfCParts)
-                                allPossibleCombo.add(mutableResultSet.toSet())
-                            }
-                        }
-                        for(part in setOfCParts) {
-                            val otherCombos = stripesCombos[part]
-                            if (otherCombos != null) {
-                                stack.add(Pair(c, otherCombos))
-                            }
+                while (stack.isNotEmpty()) {
+                    val (current, parts) = stack.removeFirst()
+                    if (!processed.add(current to parts)) continue
+                    allCombos.toList().asSequence().forEach { combo ->
+                        val newCombo = (combo - current) + parts
+                        batch.add(newCombo)
+                        if (batch.size >= batchSize) {
+                            allCombos.addAll(batch)
+                            batch.clear()
                         }
 
                     }
+
+
+                    parts.forEach { part ->
+                        stripeCombos[part]?.let { stack.add(part to it) }
+                    }
                 }
-
+                if (batch.size >= 0) {
+                    allCombos.addAll(batch)
+                    batch.clear()
+                }
             }
-            val maxElements: List<String> = allPossibleCombo.maxBy { it.size }.toList()
-            val stack = Stack<List<String>>()
 
-            stack.add(maxElements)
-            while(stack.isNotEmpty()) {
-                val current = stack.removeFirst()
-                for (i in current.indices - 1) {
-                    for (j in 1..<current.size) {
-                        val indexOf = stripes.indexOf(current[i].plus(current[j]))
-                        if (indexOf != -1) {
-                            val mutant2 =
-                                current.filterIndexed { index, _ -> index != i && index != j }.toMutableList()
-                            mutant2.add(stripes[indexOf])
+            val largestCombo = allCombos.maxByOrNull { it.size }?.toList().orEmpty()
+            val stack = ArrayDeque<List<String>>()
+            stack.add(largestCombo)
 
-                            val flag = allPossibleCombo.add(mutant2.toSet())
-                            if(flag) {
-                                stack.add(mutant2)
-                            }
+            while (stack.isNotEmpty()) {
+                val currentCombo = stack.removeFirst()
+                for (i in currentCombo.indices) {
+                    for (j in (i + 1) until currentCombo.size) {
+                        val combinedIndex = stripes.indexOf(currentCombo[i] + currentCombo[j])
+                        if (combinedIndex != -1) {
+                            val newCombo = currentCombo.filterIndexed { index, _ -> index != i && index != j } + stripes[combinedIndex]
+                            if (allCombos.add(newCombo.toMutableSet())) stack.add(newCombo)
                         }
                     }
                 }
             }
-
-
-            count += allPossibleCombo.size
+            // 758691
+            count += allCombos.size
             println(count)
             println(possibleFlag)
         }
@@ -119,46 +95,34 @@ private suspend fun checkIsPossible(
     maxStripeSize: Int
 ): Pair<Boolean, Set<String>> {
     val visited = mutableSetOf<String>()
-    fun checkRecursive(remainingFlag: String, possibleStripes: Set<String> = mutableSetOf()) : Pair<Boolean, Set<String>>{
 
-        if (remainingFlag.isEmpty()) {
-            return Pair(true, possibleStripes)
-        }
-        if (!visited.add(remainingFlag)) return Pair(false, possibleStripes)
-        val start = minStripeSize + remainingFlag.indices.first
-        val end = minOf(remainingFlag.length, maxStripeSize + remainingFlag.indices.first)
-        for (endIndex in end downTo start) {
-            val currentStripe = remainingFlag.substring(0, endIndex)
-            if (stripes[currentStripe.length]?.contains(currentStripe) == true) {
-                val newRemainder = remainingFlag.substring(endIndex)
+    fun recurse(remainingFlag: String, currentStripes: Set<String> = emptySet()): Pair<Boolean, Set<String>> {
+        if (remainingFlag.isEmpty()) return true to currentStripes
+        if (!visited.add(remainingFlag)) return false to currentStripes
 
-                if (newRemainder.isEmpty()) {
-                    return Pair(true, possibleStripes+ currentStripe)
-                } else {
-                    return checkRecursive(newRemainder, possibleStripes + currentStripe)
-                }
+        val endRange = min(maxStripeSize, remainingFlag.length)
+        for (end in endRange downTo minStripeSize) {
+            val prefix = remainingFlag.substring(0, end)
+            if (stripes[prefix.length]?.contains(prefix) == true) {
+                val result = recurse(remainingFlag.substring(end), currentStripes + prefix)
+                if (result.first) return result
             }
         }
-        return Pair(false, possibleStripes)
+        return false to currentStripes
     }
-    return checkRecursive(flag)
+
+    return recurse(flag)
 }
 
 private fun getStartInfo() = flow {
     readFile("Current.txt")?.useLines { lines ->
-        lines.forEach { line ->
-            line.split(", ").forEach { stripe ->
-                emit(stripe)
-            }
-        }
+        lines.forEach { line -> line.split(", ").forEach { emit(it) } }
     }
 }
 
 private fun getStartFlags() = flow {
     readFile("Current2.txt")?.useLines { lines ->
-        lines.forEach { line ->
-            emit(line)
-        }
+        lines.forEach { emit(it) }
     }
 }
 
