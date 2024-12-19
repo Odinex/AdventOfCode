@@ -1,73 +1,80 @@
-val stripes: MutableList<String> = mutableListOf()
-val flags: MutableList<String> = mutableListOf()
-fun main() {
-    stripes.clear()
-    stripes.addAll(getStartInfo())
-    flags.clear()
-    flags.addAll(getStartFlags())
-    val possible = mutableListOf<String>()
-    val minStripeSize = stripes.minBy { it.length }.length
-    val maxStripeSize = stripes.maxBy { it.length }.length
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 
-    flags.forEach {
-
-        val isPossible = checkIsPossible(it, minStripeSize, maxStripeSize)
-        if (isPossible) {
-            possible.add(it)
-            println(it)
+@OptIn(ExperimentalCoroutinesApi::class)
+suspend fun main() = coroutineScope {
+    val stripes = getStartInfo().toList()
+    val flags = getStartFlags().toList()
+    val minStripeSize = stripes.minOf { it.length }
+    val maxStripeSize = stripes.maxOf { it.length }
+    val mapOfStripes = stripes.groupBy { it.length}
+    var count = 0
+    flags.asFlow()
+        .flatMapMerge(Runtime.getRuntime().availableProcessors()) { flag ->
+            flow {
+                val isPossible = checkIsPossible(flag, mapOfStripes, minStripeSize, maxStripeSize)
+                if (isPossible.size > 0) {
+                    emit(isPossible)
+                }
+            }
         }
-        println(possible.size)
-    }
-
-
+        .collect { possibleFlag ->
+            count += possibleFlag.size
+            println(count)
+            println(possibleFlag)
+        }
 }
 
-private fun checkIsPossible(it: String, minStripeSize: Int, maxStripeSize: Int): Boolean {
-    var isPossible = false
-    val startIndex = 0
-    for (endIndex in startIndex + minStripeSize..minOf(it.length, startIndex + maxStripeSize)) {
-        if(isPossible) {
-            break
+private suspend fun checkIsPossible(
+    flag: String,
+    stripes: Map<Int, List<String>>,
+    minStripeSize: Int,
+    maxStripeSize: Int
+): MutableSet<Set<String>> = withContext(Dispatchers.Default) {
+    val visited = mutableSetOf<String>()
+    val result = mutableSetOf<Set<String>>()
+    fun checkRecursive(remainingFlag: String, possibleStripes: Set<String> = mutableSetOf()) {
+
+        if (remainingFlag.isEmpty()) {
+            result.add(possibleStripes.toSet())
         }
-        var test = it
-        if (stripes.contains(test.substring(startIndex, endIndex))) {
-            test = test.substring(endIndex)
-            if (test.isEmpty()) {
-                isPossible = true
-                break
-            } else {
-                isPossible = checkIsPossible(test, minStripeSize, maxStripeSize)
+        //if (!visited.add(remainingFlag)) return
+        val start = minStripeSize + remainingFlag.indices.first
+        val end = minOf(remainingFlag.length, maxStripeSize + remainingFlag.indices.first)
+        for (endIndex in end downTo start) {
+            val currentStripe = remainingFlag.substring(0, endIndex)
+            if (stripes[currentStripe.length]?.contains(currentStripe) == true) {
+                val newRemainder = remainingFlag.substring(endIndex)
+
+                if (newRemainder.isEmpty()) {
+                    result.add(possibleStripes + currentStripe)
+                } else {
+                    checkRecursive(newRemainder, possibleStripes + currentStripe)
+                }
             }
         }
     }
-
-    return isPossible
+    checkRecursive(flag)
+    result
 }
 
-private fun getStartInfo(): MutableList<String> {
-
-    var currentLineIndex = 0
-    val muta = mutableListOf<String>()
-
-    readFile("CurrentTest.txt")?.forEachLine {
-        val stripes = it.split(", ")
-        muta.addAll(stripes)
-        currentLineIndex++;
-
+private fun getStartInfo() = flow {
+    readFile("CurrentTest.txt")?.useLines { lines ->
+        lines.forEach { line ->
+            line.split(", ").forEach { stripe ->
+                emit(stripe)
+            }
+        }
     }
-    return muta
 }
 
-private fun getStartFlags(): MutableList<String> {
-
-    var currentLineIndex = 0
-    val muta = mutableListOf<String>()
-
-    readFile("CurrentTest2.txt")?.forEachLine {
-        muta.add(it)
-        currentLineIndex++;
+private fun getStartFlags() = flow {
+    readFile("CurrentTest2.txt")?.useLines { lines ->
+        lines.forEach { line ->
+            emit(line)
+        }
     }
-    return muta
 }
 
-fun readFile(fileName: String) = object {}.javaClass.getResourceAsStream(fileName)?.reader()
+private fun readFile(fileName: String) =
+    object {}.javaClass.getResourceAsStream(fileName)?.bufferedReader()
