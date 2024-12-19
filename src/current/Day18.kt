@@ -13,7 +13,7 @@ suspend fun main() = coroutineScope {
         .flatMapMerge(Runtime.getRuntime().availableProcessors()) { flag ->
             flow {
                 val isPossible = checkIsPossible(flag, mapOfStripes, minStripeSize, maxStripeSize)
-                if (isPossible.size > 0) {
+                if (isPossible.first) {
                     emit(isPossible)
                 }
             }
@@ -30,15 +30,14 @@ private suspend fun checkIsPossible(
     stripes: Map<Int, List<String>>,
     minStripeSize: Int,
     maxStripeSize: Int
-): MutableSet<Set<String>> = withContext(Dispatchers.Default) {
+): Pair<Boolean, List<String>> {
     val visited = mutableSetOf<String>()
-    val result = mutableSetOf<Set<String>>()
-    fun checkRecursive(remainingFlag: String, possibleStripes: Set<String> = mutableSetOf()) {
+    fun checkRecursive(remainingFlag: String, possibleStripes: List<String> = mutableListOf()) : Pair<Boolean, List<String>>{
 
         if (remainingFlag.isEmpty()) {
-            result.add(possibleStripes.toSet())
+            return Pair(true, possibleStripes)
         }
-        //if (!visited.add(remainingFlag)) return
+        if (!visited.add(remainingFlag)) return Pair(false, possibleStripes)
         val start = minStripeSize + remainingFlag.indices.first
         val end = minOf(remainingFlag.length, maxStripeSize + remainingFlag.indices.first)
         for (endIndex in end downTo start) {
@@ -47,15 +46,15 @@ private suspend fun checkIsPossible(
                 val newRemainder = remainingFlag.substring(endIndex)
 
                 if (newRemainder.isEmpty()) {
-                    result.add(possibleStripes + currentStripe)
+                    return Pair(true, possibleStripes+ currentStripe)
                 } else {
-                    checkRecursive(newRemainder, possibleStripes + currentStripe)
+                    return checkRecursive(newRemainder, possibleStripes + currentStripe)
                 }
             }
         }
+        return Pair(false, possibleStripes)
     }
-    checkRecursive(flag)
-    result
+    return checkRecursive(flag)
 }
 
 private fun getStartInfo() = flow {
