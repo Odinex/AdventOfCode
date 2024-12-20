@@ -34,8 +34,8 @@ suspend fun main() = coroutineScope {
         .collect { possibleFlag ->
             val allCombos = mutableSetOf<Set<String>>()
             allCombos.add(possibleFlag.second.toMutableSet())
-            val batchSize = 1000 // 65083306
-            val batch = mutableSetOf<Set<String>>()
+             // 65083306
+
             val processed = mutableSetOf<Pair<String, Set<String>>>()
             possibleFlag.second.forEach { stripe ->
                 val stack = ArrayDeque<Pair<String, Set<String>>>()
@@ -45,11 +45,12 @@ suspend fun main() = coroutineScope {
                     val (current, parts) = stack.removeFirst()
                     if (!processed.add(current to parts)) continue
                     allCombos.toList().asSequence().forEach { combo ->
-                        val newCombo = (combo - current) + parts
-                        batch.add(newCombo)
-                        if (batch.size >= batchSize) {
-                            allCombos.addAll(batch)
-                            batch.clear()
+                        val newCombo = combo.toMutableSet().apply {
+                            remove(current)
+                            addAll(parts)
+                        }
+                        if (newCombo.all { stripesByLength[it.length]!!.contains(it) }) {
+                            allCombos.add(newCombo)
                         }
 
                     }
@@ -59,24 +60,23 @@ suspend fun main() = coroutineScope {
                         stripeCombos[part]?.let { stack.add(part to it) }
                     }
                 }
-                if (batch.size >= 0) {
-                    allCombos.addAll(batch)
-                    batch.clear()
-                }
             }
 
             val largestCombo = allCombos.maxByOrNull { it.size }?.toList().orEmpty()
-            val stack = ArrayDeque<List<String>>()
-            stack.add(largestCombo)
+            val stack2 = ArrayDeque<List<String>>()
+            stack2.add(largestCombo)
+            val processedLists = mutableSetOf<List<String>>()
 
-            while (stack.isNotEmpty()) {
-                val currentCombo = stack.removeFirst()
+            while (stack2.isNotEmpty()) {
+                val currentCombo = stack2.removeFirst()
+                if (!processedLists.add(currentCombo)) continue
                 for (i in currentCombo.indices) {
                     for (j in (i + 1) until currentCombo.size) {
                         val combinedIndex = stripes.indexOf(currentCombo[i] + currentCombo[j])
                         if (combinedIndex != -1) {
                             val newCombo = currentCombo.filterIndexed { index, _ -> index != i && index != j } + stripes[combinedIndex]
-                            if (allCombos.add(newCombo.toMutableSet())) stack.add(newCombo)
+                            if (allCombos.add(newCombo.toMutableSet())) if (!stack2.contains(newCombo)) stack2.add(newCombo)
+
                         }
                     }
                 }
@@ -115,13 +115,13 @@ private suspend fun checkIsPossible(
 }
 
 private fun getStartInfo() = flow {
-    readFile("CurrentTest.txt")?.useLines { lines ->
+    readFile("Current.txt")?.useLines { lines ->
         lines.forEach { line -> line.split(", ").forEach { emit(it) } }
     }
 }
 
 private fun getStartFlags() = flow {
-    readFile("CurrentTest2.txt")?.useLines { lines ->
+    readFile("Current2.txt")?.useLines { lines ->
         lines.forEach { emit(it) }
     }
 }
