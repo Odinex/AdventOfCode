@@ -5,14 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eb572f70-0e4e-4cca-9715-b662d56c2db3" name="Changes" comment="go init">
+      <change afterPath="$PROJECT_DIR$/2025java/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Template.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day1ex.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/го/advent/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/го/advent/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/го/advent/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/го/advent/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/го/advent/greetings/greetings.go" beforeDir="false" afterPath="$PROJECT_DIR$/го/advent/greetings/greetings.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -39,18 +50,27 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main.executor": "Debug",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/projects/AdventOfCode",
+    "onboarding.tips.debug.path": "C:/projects/AdventOfCode/2025java/src/main/java/org/example/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\projects\AdventOfCode\котлин" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.example" />
     </key>
   </component>
   <component name="TaskManager">
@@ -83,5 +103,16 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="go init" />
     <option name="LAST_COMMIT_MESSAGE" value="go init" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/2025java/src/main/java/org/example/Main.java</url>
+          <line>16</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
