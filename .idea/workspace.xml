@@ -4,14 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb572f70-0e4e-4cca-9715-b662d56c2db3" name="Changes" comment="go init">
-      <change afterPath="$PROJECT_DIR$/2025java/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Template.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day1ex.txt" afterDir="false" />
+    <list default="true" id="eb572f70-0e4e-4cca-9715-b662d56c2db3" name="Changes" comment="2025 day example">
+      <change afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day1first.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/го/advent/greetings/greetings.go" beforeDir="false" afterPath="$PROJECT_DIR$/го/advent/greetings/greetings.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day1.java" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2025java/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2025java/src/main/java/org/example/Template.java" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Template.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Day1.class" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/target/classes/org/example/Day1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/target/classes/org/example/Main.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,12 +35,12 @@
     &quot;assignee&quot;: &quot;Odinex&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Odinex/AdventOfCode.git&quot;,
-    &quot;accountId&quot;: &quot;f830c7c1-b319-4997-b9a3-8b72085ad85a&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Odinex/AdventOfCode.git",
+    "accountId": "bf689ffc-8894-4275-b792-1cd4a4d1d31a"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -97,20 +98,49 @@
       <option name="project" value="LOCAL" />
       <updated>1762952433941</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="2025 day example">
+      <option name="closed" value="true" />
+      <created>1764664902564</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1764664902564</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="go init" />
-    <option name="LAST_COMMIT_MESSAGE" value="go init" />
+    <MESSAGE value="2025 day example" />
+    <option name="LAST_COMMIT_MESSAGE" value="2025 day example" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/2025java/src/main/java/org/example/Main.java</url>
-          <line>16</line>
-          <option name="timeStamp" value="1" />
+          <url>file://$PROJECT_DIR$/2025java/src/main/java/org/example/Day1.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/2025java/src/main/java/org/example/Day1.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/2025java/src/main/java/org/example/Day1.java</url>
+          <line>56</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/2025java/src/main/java/org/example/Day1.java</url>
+          <line>67</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/2025java/src/main/java/org/example/Day1.java</url>
+          <line>76</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

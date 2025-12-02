@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-public class Template {
+public class Day2 {
 
     private static final int MIN = 0;
     private static final int MAX = 99;
