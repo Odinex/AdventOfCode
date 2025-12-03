@@ -4,14 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb572f70-0e4e-4cca-9715-b662d56c2db3" name="Changes" comment="2025 day 1 finished">
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day2input.txt" afterDir="false" />
+    <list default="true" id="eb572f70-0e4e-4cca-9715-b662d56c2db3" name="Changes" comment="2025 day 2 finished">
+      <change afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day3.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day3ex.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day3input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day2.java" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2025java/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2025java/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2025java/src/main/java/org/example/Template.java" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Template.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/target/classes/org/example/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Template.class" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/target/classes/org/example/Template.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,12 +34,12 @@
     &quot;assignee&quot;: &quot;Odinex&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Odinex/AdventOfCode.git",
-    "accountId": "bf689ffc-8894-4275-b792-1cd4a4d1d31a"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Odinex/AdventOfCode.git&quot;,
+    &quot;accountId&quot;: &quot;bf689ffc-8894-4275-b792-1cd4a4d1d31a&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -58,7 +58,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/projects/AdventOfCode",
+    "last_opened_file_path": "C:/projects/AdventOfCode/2025java/src/main/resources",
     "onboarding.tips.debug.path": "C:/projects/AdventOfCode/2025java/src/main/java/org/example/Main.java",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
@@ -67,6 +67,9 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\projects\AdventOfCode\2025java\src\main\resources" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\projects\AdventOfCode\котлин" />
     </key>
@@ -133,14 +136,23 @@
       <option name="project" value="LOCAL" />
       <updated>1764672432836</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="2025 day 2 finished">
+      <option name="closed" value="true" />
+      <created>1764680318722</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1764680318722</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="go init" />
     <MESSAGE value="2025 day example" />
     <MESSAGE value="2025 day 1 finished" />
-    <option name="LAST_COMMIT_MESSAGE" value="2025 day 1 finished" />
+    <MESSAGE value="2025 day 2 finished" />
+    <option name="LAST_COMMIT_MESSAGE" value="2025 day 2 finished" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
