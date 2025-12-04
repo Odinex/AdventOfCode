@@ -5,13 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eb572f70-0e4e-4cca-9715-b662d56c2db3" name="Changes" comment="2025 day 2 finished">
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day3.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day3ex.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day3input.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day4.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day4ex.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day4input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2025java/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2025java/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Day1.class" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/target/classes/org/example/Day1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Day2.class" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/target/classes/org/example/Day2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Day3.class" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/target/classes/org/example/Day3.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/target/classes/org/example/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Template.class" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/target/classes/org/example/Template.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,12 +38,12 @@
     &quot;assignee&quot;: &quot;Odinex&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Odinex/AdventOfCode.git&quot;,
-    &quot;accountId&quot;: &quot;bf689ffc-8894-4275-b792-1cd4a4d1d31a&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Odinex/AdventOfCode.git",
+    "accountId": "0d2378b3-2d5d-4fb8-88fe-02cdacd0b930"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -58,7 +62,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/projects/AdventOfCode/2025java/src/main/resources",
+    "last_opened_file_path": "C:/Users/Admin/IdeaProjects/databoast/databoast-be/AdventOfCode/2025java/src/main/resources",
     "onboarding.tips.debug.path": "C:/projects/AdventOfCode/2025java/src/main/java/org/example/Main.java",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
@@ -68,6 +72,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Admin\IdeaProjects\databoast\databoast-be\AdventOfCode\2025java\src\main\resources" />
       <recent name="C:\projects\AdventOfCode\2025java\src\main\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -78,8 +83,8 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="jbr-11" />
+    <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="21" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="org.example.Main" />
       <module name="2025java" />
@@ -88,6 +93,7 @@
       </method>
     </configuration>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="eb572f70-0e4e-4cca-9715-b662d56c2db3" name="Changes" comment="" />
@@ -200,6 +206,10 @@
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.NumberFormatException" package="java.lang" />
           <option name="timeStamp" value="17" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.ArrayIndexOutOfBoundsException" package="java.lang" />
+          <option name="timeStamp" value="30" />
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>
