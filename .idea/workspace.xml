@@ -5,17 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eb572f70-0e4e-4cca-9715-b662d56c2db3" name="Changes" comment="2025 day 2 finished">
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day4.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day4ex.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day4input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day5.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day5ex.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day5input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2025java/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Day1.class" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/target/classes/org/example/Day1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Day2.class" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/target/classes/org/example/Day2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Day3.class" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/target/classes/org/example/Day3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/target/classes/org/example/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Template.class" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/target/classes/org/example/Template.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Day4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Main.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,12 +34,12 @@
     &quot;assignee&quot;: &quot;Odinex&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Odinex/AdventOfCode.git",
-    "accountId": "0d2378b3-2d5d-4fb8-88fe-02cdacd0b930"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Odinex/AdventOfCode.git&quot;,
+    &quot;accountId&quot;: &quot;0d2378b3-2d5d-4fb8-88fe-02cdacd0b930&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -62,7 +58,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Admin/IdeaProjects/databoast/databoast-be/AdventOfCode/2025java/src/main/resources",
+    "last_opened_file_path": "C:/projects/AdventOfCode/2025java/src/main/resources",
     "onboarding.tips.debug.path": "C:/projects/AdventOfCode/2025java/src/main/java/org/example/Main.java",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
@@ -72,8 +68,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Admin\IdeaProjects\databoast\databoast-be\AdventOfCode\2025java\src\main\resources" />
       <recent name="C:\projects\AdventOfCode\2025java\src\main\resources" />
+      <recent name="C:\Users\Admin\IdeaProjects\databoast\databoast-be\AdventOfCode\2025java\src\main\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\projects\AdventOfCode\котлин" />
