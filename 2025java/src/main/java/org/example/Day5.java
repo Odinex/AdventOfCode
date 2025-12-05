@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Day5 {
 
@@ -14,8 +16,8 @@ public class Day5 {
     private static final int MAX = 99;
     private static final int HUND = 100;
     class Range {
-        private final Long start;
-        private final Long end;
+        private Long start;
+        private Long end;
 
         public Range(Long start, Long end) {
             this.start = start;
@@ -69,12 +71,48 @@ public class Day5 {
             InputStreamReader streamReader = new InputStreamReader(resource, StandardCharsets.UTF_8);
             BufferedReader reader = new BufferedReader(streamReader);
 
+            boolean isInRangesMode = true;
+            List<Range> ranges = new ArrayList<>();
             for (String line; (line = reader.readLine()) != null;) {
-                char first = line.charAt(0);
+                if(line.isEmpty()) {
+                    isInRangesMode = false;
+                    continue;
+                }
+                if(isInRangesMode) {
+                    String[] array = line.split("-");
+                    long start = Long.parseLong(array[0]);
+                    long end = Long.parseLong(array[1]);
 
+                    List<Range> affectedRanges = ranges.stream().filter(range -> range.isInRage(start)  ||
+                            range.isInRage(end)  || range.start > start && range.end < end).collect(Collectors.toList());
+                    if(affectedRanges.isEmpty()) {
+                        ranges.add(new Range(start, end));
+                    } else {
+                        ranges.removeAll(affectedRanges);
+                        affectedRanges.add(new Range(start, end));
+                        long minStart = Long.MAX_VALUE;
+                        long maxEnd = -1;
+                        for (Range r : affectedRanges) {
+                            if (r.start < minStart) {
+                                minStart = r.start;
+                            }
+                            if (r.end > maxEnd) {
+                                maxEnd = r.end;
+                            }
+                        }
+                        ranges.add(new Range(minStart, maxEnd));
 
+                    }
+                } else {
+                    break;
+                }
             }
-            System.out.println("executeSecond");
+            Long countIds = 0L;
+            ranges.sort(Comparator.comparing(o -> o.start));
+            for (Range range : ranges) {
+                countIds += range.end - (range.start - 1);
+            }
+            System.out.println("Еxecute second " + countIds);
 
         }
     }

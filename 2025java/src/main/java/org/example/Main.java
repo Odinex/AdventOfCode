@@ -6,15 +6,17 @@ import java.io.IOException;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
 
-    public static final String INPUT_TXT = "/Day5input.txt";
-    public static final String EX_TXT = "/Day5ex.txt";
+    public static final String INPUT_TXT = "/Day2in23input.txt";
+    public static final String EX_TXT = "/Day2in23ex.txt";
 
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        Day5 day = new Day5();
+        Day2in23 day = new Day2in23();
         try {
-            day.executeFirst(INPUT_TXT);
+//            day.executeFirst(INPUT_TXT);
+//            day.executeFirst(EX_TXT);
+            day.executeFirst(EX_TXT);
+//            day.executeSecond(INPUT_TXT);
+//            day.executeSecond(EX_TXT);
         } catch (IOException e) {
             e.printStackTrace();
         }

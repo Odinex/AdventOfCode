@@ -4,14 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb572f70-0e4e-4cca-9715-b662d56c2db3" name="Changes" comment="2025 day 2 finished">
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day5.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day5ex.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day5input.txt" afterDir="false" />
+    <list default="true" id="eb572f70-0e4e-4cca-9715-b662d56c2db3" name="Changes" comment="2025 day 5 p1">
+      <change afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day2in23.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day2in23ex.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day2in23input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day5.java" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day5.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2025java/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Day4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/target/classes/org/example/Main.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,7 +146,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764680318722</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="2025 day 5 p1">
+      <option name="closed" value="true" />
+      <created>1764931203217</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1764931203217</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -154,7 +162,8 @@
     <MESSAGE value="2025 day example" />
     <MESSAGE value="2025 day 1 finished" />
     <MESSAGE value="2025 day 2 finished" />
-    <option name="LAST_COMMIT_MESSAGE" value="2025 day 2 finished" />
+    <MESSAGE value="2025 day 5 p1" />
+    <option name="LAST_COMMIT_MESSAGE" value="2025 day 5 p1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -198,6 +207,16 @@
           <url>file://$PROJECT_DIR$/2025java/src/main/java/org/example/Day2.java</url>
           <line>132</line>
           <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/2025java/src/main/java/org/example/Day5.java</url>
+          <line>112</line>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/2025java/src/main/java/org/example/Day5.java</url>
+          <line>114</line>
+          <option name="timeStamp" value="38" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.NumberFormatException" package="java.lang" />
