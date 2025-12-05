@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb572f70-0e4e-4cca-9715-b662d56c2db3" name="Changes" comment="2025 day 5 p1">
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day2in23.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day2in23ex.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day2in23input.txt" afterDir="false" />
+    <list default="true" id="eb572f70-0e4e-4cca-9715-b662d56c2db3" name="Changes" comment="gitignore update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day5.java" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day5.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day2in23.java" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day2in23.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2025java/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2025java/target/classes/org/example/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/target/classes/org/example/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2025java/src/main/resources/Day2in23input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day2in23input.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +49,8 @@
   "keyToString": {
     "Application.Main.executor": "Debug",
     "Application.Unnamed.executor": "Debug",
+    "Maven.2025java [clean].executor": "Run",
+    "Maven.2025java [install].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -77,6 +76,12 @@
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="org.example" />
     </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean" />
+      <command value="mvn install" />
+    </option>
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
@@ -154,7 +159,31 @@
       <option name="project" value="LOCAL" />
       <updated>1764931203217</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="2023 day 2 init">
+      <option name="closed" value="true" />
+      <created>1764941028878</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1764941028878</updated>
+    </task>
+    <task id="LOCAL-00009" summary="gitignore update">
+      <option name="closed" value="true" />
+      <created>1764941080218</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1764941080218</updated>
+    </task>
+    <task id="LOCAL-00010" summary="gitignore update">
+      <option name="closed" value="true" />
+      <created>1764941121058</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1764941121058</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -163,7 +192,9 @@
     <MESSAGE value="2025 day 1 finished" />
     <MESSAGE value="2025 day 2 finished" />
     <MESSAGE value="2025 day 5 p1" />
-    <option name="LAST_COMMIT_MESSAGE" value="2025 day 5 p1" />
+    <MESSAGE value="2023 day 2 init" />
+    <MESSAGE value="gitignore update" />
+    <option name="LAST_COMMIT_MESSAGE" value="gitignore update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
