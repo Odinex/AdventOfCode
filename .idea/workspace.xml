@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb572f70-0e4e-4cca-9715-b662d56c2db3" name="Changes" comment="gitignore update">
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day6.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day6ex.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2025java/src/main/resources/Day6input.txt" afterDir="false" />
+    <list default="true" id="eb572f70-0e4e-4cca-9715-b662d56c2db3" name="Changes" comment="day 7 2pts">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day7.java" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Day7.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2025java/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/2025java/src/main/java/org/example/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,26 +44,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Debug",
-    "Application.Unnamed.executor": "Debug",
-    "Maven.2025java [clean].executor": "Run",
-    "Maven.2025java [install].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Admin/IdeaProjects/AdventOfCode/2025java/src/main/resources",
-    "onboarding.tips.debug.path": "C:/projects/AdventOfCode/2025java/src/main/java/org/example/Main.java",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.editor"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Debug&quot;,
+    &quot;Application.Unnamed.executor&quot;: &quot;Debug&quot;,
+    &quot;Maven.2025java [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.2025java [install].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Admin/IdeaProjects/AdventOfCode/2025java/src/main/resources&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/projects/AdventOfCode/2025java/src/main/java/org/example/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\IdeaProjects\AdventOfCode\2025java\src\main\resources" />
@@ -185,7 +183,23 @@
       <option name="project" value="LOCAL" />
       <updated>1764941121058</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="day 6 2pts">
+      <option name="closed" value="true" />
+      <created>1765029326486</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1765029326487</updated>
+    </task>
+    <task id="LOCAL-00012" summary="day 7 2pts">
+      <option name="closed" value="true" />
+      <created>1765146847661</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1765146847661</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -196,7 +210,9 @@
     <MESSAGE value="2025 day 5 p1" />
     <MESSAGE value="2023 day 2 init" />
     <MESSAGE value="gitignore update" />
-    <option name="LAST_COMMIT_MESSAGE" value="gitignore update" />
+    <MESSAGE value="day 6 2pts" />
+    <MESSAGE value="day 7 2pts" />
+    <option name="LAST_COMMIT_MESSAGE" value="day 7 2pts" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -208,6 +224,10 @@
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.NumberFormatException" package="java.lang" />
           <option name="timeStamp" value="43" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="92" />
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/2025java/src/main/java/org/example/Day6.java</url>
@@ -233,6 +253,11 @@
           <url>file://$PROJECT_DIR$/2025java/src/main/java/org/example/Day6.java</url>
           <line>87</line>
           <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/2025java/src/main/java/org/example/Day7.java</url>
+          <line>92</line>
+          <option name="timeStamp" value="55" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
