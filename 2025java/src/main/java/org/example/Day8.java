@@ -33,38 +33,35 @@ public class Day8 {
                     pairs.put(Set.of(points.get(i), points.get(j)), (long) distance);
                 }
             }
-            List<Set<Point3>> sets = new ArrayList<>();
-            for (Set<Point3> point3s : pairs.keySet()) {
-                sets.add(point3s);
-            }
+            List<Set<Point3>> sets = new ArrayList<>(pairs.keySet());
             sets.sort((a,b)-> { if(pairs.get(a)<pairs.get(b)) return -1; else return 1; });
             
             
             for(int c = 0; c< numberOfIterations; c++) {
-                long minDistance = Long.MAX_VALUE;
 
-                List<Point3> currentPair = new ArrayList<>();
-                for (Point3 point3 : sets.get(c)) {
-                    currentPair.add(point3);
-                }
-                Set<Point3> foundSet = null;
+                List<Point3> currentPair = new ArrayList<>(sets.get(c));
+                List<Set<Point3>> foundSets = new ArrayList<>();
                 for (Set<Point3> set : connectedGroups) {
                     if (set.contains(currentPair.get(0)) || set.contains(currentPair.get(1))) {
-                        foundSet = set;
-                        break;
+                        foundSets.add(set);
                     }
                 }
-                if (foundSet == null) {
-                    foundSet = new HashSet<>();
-                    connectedGroups.add(foundSet);
+                connectedGroups.removeAll(foundSets);
+                HashSet<Point3> merg = new HashSet<>();
+
+                merg.add(currentPair.get(0));
+                merg.add(currentPair.get(1));
+                for(Set<Point3> found : foundSets) {
+                    merg.addAll(found);
                 }
-                foundSet.add(currentPair.get(0));
-                foundSet.add(currentPair.get(1));
+                connectedGroups.add(merg);
 
             }
             System.out.println("executeFirst");
             long result =1;
-            for (Set<Point3> set : connectedGroups) {
+            connectedGroups.sort((a, b) -> { if(a.size() > b.size()) return -1;  else if(a.size() == b.size()) return 0; else return 1; } );
+            List<Set<Point3>> top3 = connectedGroups.subList(0, 3);
+            for (Set<Point3> set : top3) {
                 result *= set.size();
             }
             
