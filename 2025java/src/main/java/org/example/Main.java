@@ -14,7 +14,7 @@ public class Main {
         try {
 //            day.executeFirst(INPUT_TXT);
 //            day.executeFirst(EX_TXT);
-            day.executeFirst(INPUT_TXT, 1000);
+            day.executeSecond(INPUT_TXT);
 //            day.executeSecond(INPUT_TXT);
 //            day.executeSecond(EX_TXT);
         } catch (IOException e) {

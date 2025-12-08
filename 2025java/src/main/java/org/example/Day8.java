@@ -106,13 +106,55 @@ public class Day8 {
             assert resource != null;
             InputStreamReader streamReader = new InputStreamReader(resource, StandardCharsets.UTF_8);
             BufferedReader reader = new BufferedReader(streamReader);
-
+            List<Point3> points = new ArrayList<>();
             for (String line; (line = reader.readLine()) != null;) {
-                char first = line.charAt(0);
-                
-
+                String[] split = line.split(",");
+                points.add(new Point3(Long.parseLong(split[0]),Long.parseLong(split[1]),Long.parseLong(split[2])));
             }
-            System.out.println("executeSecond");
+            List<Set<Point3>> connectedGroups = new ArrayList<>();
+            Map<Set<Point3>, Long> pairs = new HashMap<>();
+
+            for (int i = 0; i < points.size() - 1; i++) {
+                for (int j = i + 1; j < points.size(); j++) {
+                    double distance = this.findDistance(points.get(i), points.get(j));
+                    pairs.put(Set.of(points.get(i), points.get(j)), (long) distance);
+                }
+            }
+            List<Set<Point3>> sets = new ArrayList<>(pairs.keySet());
+            sets.sort((a,b)-> { if(pairs.get(a)<pairs.get(b)) return -1; else return 1; });
+
+            int c = 0;
+            List<Point3> lastIteratedPair = List.of();
+            while(connectedGroups.size() != 1 || connectedGroups.get(0) != null && connectedGroups.get(0).size() != points.size()) {
+
+                lastIteratedPair = new ArrayList<>(sets.get(c));
+
+                List<Set<Point3>> foundSets = new ArrayList<>();
+                for (Set<Point3> set : connectedGroups) {
+                    if (set.contains(lastIteratedPair.get(0)) || set.contains(lastIteratedPair.get(1))) {
+                        foundSets.add(set);
+                    }
+                }
+                connectedGroups.removeAll(foundSets);
+                HashSet<Point3> merg = new HashSet<>();
+
+                merg.add(lastIteratedPair.get(0));
+                merg.add(lastIteratedPair.get(1));
+                for(Set<Point3> found : foundSets) {
+                    merg.addAll(found);
+                }
+                connectedGroups.add(merg);
+                c++;
+            }
+            System.out.println("executeFirst");
+            long result =1;
+//            connectedGroups.sort((a, b) -> { if(a.size() > b.size()) return -1;  else if(a.size() == b.size()) return 0; else return 1; } );
+//            List<Set<Point3>> top3 = connectedGroups.subList(0, 3);
+//            for (Set<Point3> set : top3) {
+//                result *= set.size();
+//            }
+
+            System.out.println("executeSecond " + (lastIteratedPair.get(0).x * lastIteratedPair.get(1).x) );
 
         }
     }
